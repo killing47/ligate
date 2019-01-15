@@ -1,0 +1,39 @@
+<%if current_user.image_id == nil %>
+  <%= image_tag(current_user.user_image,  :size => "95x95") %>
+<% else%>
+  <%= attachment_image_tag  current_user, :image, format: 'jpeg', size: "95x95" , id:"post"%>
+<% end %>
+
+
+<%= form_with(model: @current_user) do |f| %>
+<%= f.file_field :image %></br><%= f.submit %>
+<% end %>
+
+<p>name:<%= current_user.name %></p>
+<%= form_with(model: @current_user) do |f| %>
+<%= f.text_field :nick_name %><%= f.submit %>
+<% end %>
+
+<%=link_to "退会する", user_path(current_user), "data-confirm" => "本当に退会しますか？", method: :delete, style: "color: black;" %>
+<!-- ajax
+<script type="text/javascript">
+
+$(function() {
+  $(document).on('click', 'input[type=submit]', function() {
+    if ($('input[type=text]').val() == '') {
+      return false;
+    }
+  })
+})
+
+$(function() {
+
+
+  $(document).on('ajax:success', 'form', function(e) {
+    $('#post_comment').val('');
+    $('').
+  })
+})
+
+</script>
+-->

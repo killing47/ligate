@@ -1,0 +1,66 @@
+<ul id="tab-menu" class="clearfix">
+  <li><a href="#tab1" class="active">Profile</a></li>
+  <li><a href="#tab2" class="">CD</a></li>
+  <li><%= link_to "Become CB?",user_path(current_user), method: :patch  %></li>
+  <li><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
+</ul>
+
+<div id="tab-contents" class="clearfix">
+  <div id="tab1" class="tab"><%= render "partial/profile" %></div>
+  <div id="tab2" class="tab"></div>
+</div>
+
+<style type="text/css">
+.clearfix:after{
+  content:"";
+  clear: both;
+  display: block;
+}
+
+#tab-menu li {
+  float: left;
+  list-style-type: none;
+  width: 25%;
+}
+
+#tab-menu a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 20px;
+  text-align: center;
+  background: #000;
+  border: 1px solid #000;
+  border-bottom: none;
+}
+
+#tab-menu .active {
+  background: #fff;
+  color: #000;
+}
+
+#tab-contents .tab {
+  padding: 30px;
+  background: #fff;
+  border: 1px solid #000;
+  border-top: none;
+}
+
+#tab-contents p{
+  color:#000;
+  line-height: 2.5;
+}
+</style>
+
+<script type="text/javascript">
+$('#tab-contents .tab[id != "tab1"]').hide();
+
+$('#tab-menu a').on('click', function() {
+  $("#tab-contents .tab").hide();
+  $("#tab-menu .active").removeClass("active");
+  $(this).addClass("active");
+  $($(this).attr("href")).show();
+  return false;
+});
+
+</script>

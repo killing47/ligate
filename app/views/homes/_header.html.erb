@@ -1,0 +1,149 @@
+<div id="sp-menu">
+  <div class="wrap">
+  <% if current_user %>
+    <% if  current_user.email == ENV['EMAIL'] %>
+        <%= render "users/contribution" %>
+    <% elsif  current_user.role == "gest"  %>
+      <%= render "users/gest" %>
+    <% else  %>
+      <!-- <%= render "users/contribution" %> に戻す--><%= render "users/admin" %>
+    <% end %>
+  <% else %>
+    <%= render "partial/sign_in" %>
+  <% end %>
+  </div>
+</div>
+
+<div>
+  <h2 id="hm-logo">
+   <%= link_to "後でロゴを入れる", users_path %>
+  </h2>
+  <div id="hm-icon">
+    <%= link_to "お問い合わせ", "#" , class: "hm-li"%>
+    <%= link_to "", class: "menu-trigger"  do %>
+      <span></span><span></span><span></span>
+    <% end %>
+  </div>
+</div>
+
+<style type="text/css">
+#hm-logo{
+position: fixed;
+left: 20px;
+top: 35px;
+z-index: 10;
+}
+
+#hm-logo a{
+color: black;
+}
+
+#hm-icon{
+position: fixed;
+right: 20px;
+top: 20px;
+z-index: 10;
+}
+
+.hm-li{
+  color: black;
+  padding-right: 30px;
+  font-size: 25px;
+}
+
+.wrap{
+  width: 90%;
+  max-width: 800px;
+  margin: 100px auto;
+}
+
+.menu-trigger,.menu-trigger span {
+display: inline-block;
+transition: all .4s;
+box-sizing: border-box;
+}
+
+.menu-trigger {
+position: relative;
+width: 50px;
+height: 44px;
+}
+
+.menu-trigger span {
+position: absolute;
+left: 0;
+width: 100%;
+height: 4px;
+background-color: #000;
+border-radius: 4px;
+}
+
+.menu-trigger span:nth-of-type(1) {
+top: 0;
+}
+
+.menu-trigger span:nth-of-type(2) {
+top: 20px;
+}
+
+.menu-trigger span:nth-of-type(3) {
+bottom: 0;
+}
+
+.menu-trigger.active span:nth-of-type(1) {
+-webkit-transform: translateY(20px) rotate(-45deg);
+transform: translateY(20px) rotate(-45deg);
+background-color: #fff;
+}
+
+.menu-trigger.active span:nth-of-type(2) {
+opacity: 0;
+}
+
+.menu-trigger.active span:nth-of-type(3) {
+-webkit-transform: translateY(-20px) rotate(45deg);
+transform: translateY(-20px) rotate(45deg);
+background-color: #fff;
+}
+
+/* ------ spメニュー ------ */
+
+#sp-menu {
+position: fixed;
+top: 0;
+left: 0;
+background: rgba(0,0,0,0.8);
+color: #fff;
+width: 100%;
+min-height: 100%;
+display: none;
+z-index: 9;
+}
+
+#sp-menu li{
+text-align: center;
+margin-bottom: 30px;
+}
+
+#sp-menu a{
+color: #fff;
+text-decoration: none;
+font-weight: bold;
+}
+
+#sp-menu a:hover{
+  opacity: 0.5;
+}
+</style>
+
+ <script type="text/javascript">
+ $(function() {
+
+   $('.menu-trigger').on('click', function() {
+     $(this).toggleClass('active');
+     $('#sp-menu').fadeToggle();
+     return false;
+   });
+
+ });
+</script>
