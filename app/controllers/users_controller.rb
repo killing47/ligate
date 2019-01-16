@@ -14,6 +14,9 @@ class UsersController < ApplicationController
         template: "partial/_qr_code.html.erb" # viewを対象にする
       end
     end
+
+    @cds = Cd.all
+    @cd  = Cd.new
   end
 
   def admin

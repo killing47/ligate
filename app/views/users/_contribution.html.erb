@@ -1,13 +1,13 @@
 <ul id="tab-menu" class="clearfix">
-  <li><a href="#tab1" class="active">Profile</a></li>
-  <li><a href="#tab2" class="">CD</a></li>
-  <li><%= link_to "Contribution", user_path(current_user) %></li>
-  <li><%= link_to "Sign out", signout_path, id: "sign_out", remote: true %></li>
+  <li><a name="#tab1" class="active a"  >Profile</a></li>
+  <li><a name="#tab2" class="a">CD</a></li>
+  <li><%= link_to "Contribution", user_path(current_user) , class: "a" %></li>
+  <li><%= link_to "Sign out", signout_path, id: "sign_out",  class: "a"%></li>
 </ul>
 
 <div id="tab-contents" class="clearfix">
   <div id="tab1" class="tab"><%= render "partial/profile" %></div>
-  <div id="tab2" class="tab"></div>
+  <div id="tab2" class="tab"><%= render "partial/cds" %></div>
 </div>
 
 <style type="text/css">
@@ -58,8 +58,9 @@ $('#tab-menu a').on('click', function() {
   $("#tab-contents .tab").hide();
   $("#tab-menu .active").removeClass("active");
   $(this).addClass("active");
-  $($(this).attr("href")).show();
+  if ($(this).attr("name")) {
+  $($(this).attr("name")).show();
   return false;
-});
+}});
 
 </script>

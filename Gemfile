@@ -98,3 +98,5 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 #googleformgem
 gem 'omniauth-google-oauth2'
+
+gem "pry-rails"

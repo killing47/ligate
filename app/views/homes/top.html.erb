@@ -1,15 +1,77 @@
-<% if current_user %>
-        Signed in as <strong><%= current_user.name %></strong>!
-        <%= link_to "Sign out", signout_path, id: "sign_out" %>
-      <% end %>
-      <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
 
-<div>
+<div id="top">
   <h1>画像表示</h1>
 </div>
-<div class="slider">
+<div class="slider1" >
+
+    <ul class="horizontal-list">
+      <% @cds.each do |c| %>
+      <li class="item">
+        <%= link_to user_path(c.id) do %>
+          <%= c.id%>
+        <% end %>
+      </li>
+
+      <div class="modal fade" id="dialog2">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% end %>
+    </ul>
+
 
 </div>
-<div class="slider">
+
+
+<div class="slider2">
+
+    <ul class="horizontal-list">
+      <% @users.each do |c| %>
+      <% if c.status == "contribution" %>
+      <p class="item"><%= c.attachemnt %>
+        <%if current_user.image_id == nil %>
+          <%= image_tag(current_user.user_image,  :size => "95x95") %>
+        <% else%>
+          <%= attachment_image_tag  current_user, :image, format: 'jpeg', size: "95x95" , id:"post"%>
+        <% end %>
+      </p>
+      <% end %>
+      <% end %>
+    </ul>
 
 </div>
+
+
+<style type="text/css">
+ #top{
+   height: 400px;
+   width: 100%;
+   background-color: blue;
+   opacity: 0.5;
+ }
+.slider1, .slider2 {
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+
+
+    .item {
+          /* 横スクロール用 */
+          display: inline-block;
+          width: 90%;
+
+          /* 見た目調整 */
+          height: 400px;
+          margin: 16px;
+          font-size: 48px;
+          background: rgba(255, 0, 0, 0.4);
+        }
+</style>

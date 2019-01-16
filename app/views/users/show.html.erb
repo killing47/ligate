@@ -17,15 +17,87 @@
 </div>
 <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",  class: "btn btn-primary"%>
 <%= link_to "PDF", "https://fadfdfafa.herokuapp.com/users/#{@user.id}.pdf", class: "btn btn-primary" %>
-<button type="button" class="btn btn-primary " onclick="doAction();">Click</button>
-<text_field></text_field>
-<div class="slider">
+<button type="button" class="btn btn-primary " id="button1">Click</button>
 
+
+<div class="modal fade" id="dialog2">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div>
+        <%= form_with(model: @cd, local: true)  do |f| %>
+        <%= f.text_field :cd_title %><br>
+        <div>
+          <%= f.fields_for :musics do |i| %>
+            <%= render 'music_fields', f: i %>
+          <%end%>
+        <%= link_to_add_association 'AddAudio',f, :musics %>
+        </div>
+        <%= f.submit %>
+       <% end %>
+      </div>
+    </div>
+  </div>
 </div>
+<button type="button" class="btn btn-primary " id="button2" >Click</button>
+<div class="slider1" >
+<ul class="horizontal-list">
+  <% @user.cds.each do |c| %>
+  <li class="item">
 
-<form>
+      <%= c.id%>
+    
+  </li>
+  <% end %>
+</ul>
+</div>
+<% @cds.each do |c| %>
+<p><%= c.id%></p>
+</div>
+  <ul id="Audio-Control">
+    <% c.musics.each.with_index(1) do |a, x| %>
+  <li>
+    <audio  controls id="a<%= x %>"  src="<%= attachment_url(a, :audio) %>" />
+    <%= submit_tag "on!" %>
+    <%= submit_tag "stop!" %>
+  </li>
+</ul>
+<% end %>
+<% end %>
 
-</form>
+
+<script type="text/javascript">
+
+
+$('#button1').on('click', function() {
+    $('#dialog1').modal();
+});
+
+$('#button2').on('click', function() {
+    $('#dialog2').modal();
+});
+
+
+
+document.querySelector('#on1').onclick = function () {
+        document.querySelector("#a1").play();
+        }
+document.querySelector('#of1').onclick = function () {
+        document.querySelector("#a1").pause();
+                }
+var audios = document.querySelectorAll( "audio" );
+for(var i=0;i<audios.length;i++){
+audios[ i ].addEventListener( "play", function(){
+for(var j=0;j<audios.length;j++){if( audios[ j ]!=this ){ audios[ j ].pause() } {audios[ j ].currentTime = 0;}}
+}, false );
+}
+
+
+
+
+</script>
+
+
+
 
 </div>
 
@@ -38,12 +110,3 @@ li{
   margin-top: 100px;
 }
 </style>
-
-
-<script type="text/javascript">
-
-function doAction(){
-  $('#dialog1').modal();
-}
-
-</script>

@@ -1,5 +1,6 @@
 class User < ApplicationRecord
 
+  enum status: {gest: 0,contribution: 1,unsubscribe: 2}
   has_many :cds, dependent: :destroy
   has_many :load_music, dependent: :destroy
   attachment :image
