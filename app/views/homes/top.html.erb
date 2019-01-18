@@ -1,15 +1,14 @@
-
 <div id="top">
-  <h1>画像表示</h1>
+
 </div>
 <div class="slider1" >
 
     <ul class="horizontal-list">
       <% @cds.each do |c| %>
-      <li class="item">
-        <%= link_to user_path(c.id) do %>
+      <li class="item itemsab">
+
           <%= c.id%>
-        <% end %>
+
       </li>
 
       <div class="modal fade" id="dialog2">
@@ -24,28 +23,25 @@
 
       <% end %>
     </ul>
-
-
 </div>
+
+<div class="border">
 
 
 <div class="slider2">
-
-    <ul class="horizontal-list">
-      <% @users.each do |c| %>
+  <ul class="horizontal-list">
+    <% @users.each do |c| %>
       <% if c.status == "contribution" %>
-      <p class="item"><%= c.attachemnt %>
-        <%if current_user.image_id == nil %>
-          <%= image_tag(current_user.user_image,  :size => "95x95") %>
-        <% else%>
-          <%= attachment_image_tag  current_user, :image, format: 'jpeg', size: "95x95" , id:"post"%>
+      <li class="item">
+        <%= link_to user_path(c.id) do %>
+          <%= render "users/user_image" %>
         <% end %>
-      </p>
+      </li>
       <% end %>
-      <% end %>
-    </ul>
-
+   <% end %>
+  </ul>
 </div>
+
 
 
 <style type="text/css">
@@ -56,22 +52,28 @@
    opacity: 0.5;
  }
 .slider1, .slider2 {
-      overflow-x: auto;
-      white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
-    }
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 20px;
+  border-top: 3px solid rgba(0,0,0,0.5);
 
 
+}
 
-    .item {
-          /* 横スクロール用 */
-          display: inline-block;
-          width: 90%;
+.item {
+  /* 横スクロール用 */
+  display: inline-block;
+  width: 350px;
 
-          /* 見た目調整 */
-          height: 400px;
-          margin: 16px;
-          font-size: 48px;
-          background: rgba(255, 0, 0, 0.4);
-        }
+
+  /* 見た目調整 */
+  height: 350px;
+  margin: 16px;
+  font-size: 48px;
+}
+
+.itemsab{
+  background: rgba(255, 0, 0, 0.4);
+}
 </style>

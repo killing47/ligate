@@ -2,9 +2,9 @@
   <div class="wrap">
   <% if current_user %>
     <% if  current_user.email == ENV['EMAIL'] %>
-        <%= render "users/contribution" %>
-    <% elsif  current_user.status == "gest"  %>
       <%= render "users/gest" %>
+    <% elsif  current_user.status == "contribution"  %>
+      <!-- <%= render "users/contribution" %> に戻す-->  <%= render "users/contribution" %>
     <% else  %>
       <!-- <%= render "users/contribution" %> に戻す--><%= render "users/admin" %>
     <% end %>

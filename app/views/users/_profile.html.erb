@@ -1,0 +1,75 @@
+<div id="image_area">
+  
+  <%= render "users/user_image" %>
+
+</div>
+<%= form_with(model: @user,url:  image_update_path,id: "image1") do |f| %>
+  <%= f.hidden_field :id, value:current_user.id %>
+  <%= f.file_field :image,id: "file_field" %></br>
+  <%= f.submit %>
+<% end %>
+
+<p>name:<%= current_user.name %></p>
+<%= form_with(model: @user) do |f| %>
+  <%= f.text_field :nick_name %>
+  <%= f.submit %>
+<% end %>
+
+<%=link_to "退会する", user_path(current_user), "data-confirm" => "本当に退会しますか？", method: :delete, style: "color: black;" %>
+
+
+<script type="text/javascript">
+
+var file = document.querySelector('#file_field');
+    file.onchange = function (){
+      // $('.circle, .form_wrapper').remove();
+      var fileList = file.files;
+      if (file.files[0] == null) {
+        document.querySelector('#image').src = "";
+      } else {
+        //読み込み
+        var reader = new FileReader();
+        reader.readAsDataURL(fileList[0]);
+        //読み込み後
+        reader.onload = function  () {
+          document.querySelector('#image').src = reader.result;
+        };
+      };
+    };
+
+$('#image1').on('submit', function(e) {
+  e.preventDefault();
+  var formData = new FormData($(this).get(0));
+  $.ajax($(this).attr('action'), {
+    type: 'post',
+    processData: false,
+    contentType: false,
+    data: formData,
+  });
+  return false;
+});
+
+
+  /*$('#image1').change(function() {
+    var file = this.files[0];
+    var filetype = file["type"];
+    console.log(file)
+    console.log(filetype)
+     $.ajax({
+      type: 'post',
+      url: '/image_update',
+      processData: false,
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      data: file,
+      headers: {
+        "Content-Type": filetype
+      }
+    }).done(function(response){
+      console.log('succes!');  // レスポンスがあったとき
+    }).fail(function() {
+       console.log('error!'); // エラーが発生したとき
+    });
+  }); */
+
+
+</script>

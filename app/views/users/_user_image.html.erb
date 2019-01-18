@@ -1,0 +1,5 @@
+<%if current_user.image_id == nil %>
+  <%= image_tag(current_user.user_image,  :size => "350x350") %>
+<% else%>
+  <%= attachment_image_tag  current_user, :image, format: 'jpeg', size: "350x350" , id:"image"%>
+<% end %>
