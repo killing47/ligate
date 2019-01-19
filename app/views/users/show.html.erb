@@ -1,54 +1,59 @@
-<div class="contribution">
-  <%= render "users/user_image" %>
-  <h3>名前を表示</h3>
-<%= form_with(model: @user) do |f| %>
-<%= f.text_field :nick_name %><%= f.submit %>
-<% end %>
+<div class=" container">
+  <div class="row">
+    <div class="col-6  image" >
+      <%if current_user.image_id == nil %>
+        <%= image_tag(current_user.user_image,  :size => "350x350", id:"imgage") %>
+      <% else%>
+        <%= attachment_image_tag  current_user, :image, format: 'jpeg', size:"350x350" , id:"image"%>
+      <% end %>
+    </div>
+    <div class="col-6 name">
+      <h1><%= current_user.nick_name %></h1>
+    </div>
+  </div>
 
-<%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",  class: "btn btn-primary"%>
-<%= link_to "PDF", "https://fadfdfafa.herokuapp.com/users/#{@user.id}.pdf", class: "btn btn-primary" %>
-<button type="button" class="btn btn-primary " id="button1">Click</button>
-<button type="button" class="btn btn-primary " id="button2" >Click</button>
-<div class="slider1" >
-<ul class="horizontal-list">
-  <% @user.cds.each do |c| %>
-  <li class="item">
-      <%= c.id%>
-  </li>
-  <% end %>
-</ul>
+  <div class="row">
+    <div class="col-12">
+      <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",  class: "btn btn-primary"%>
+      <button type="button" class="btn btn-primary " id="button1">Click</button>
+      <button type="button" class="btn btn-primary " id="button2" >Click</button>
+      <div class="slider1" >
+        <ul class="horizontal-list">
+          <% @user.cds.each do |c| %>
+          <li class="item"><%= c.id%></li>
+          <% end %>
+        </ul>
+      </div>
+      <% @cds.each do |c| %>
+        <p><%= c.id%></p>
+        <ul id="Audio-Control">
+          <% c.musics.each.with_index(1) do |a, x| %>
+          <li>
+            <audio  controls id="a<%= x %>"  src="<%= attachment_url(a, :audio) %>" />
+            <%= submit_tag "on!" %>
+            <%= submit_tag "stop!" %>
+          </li>
+        </ul>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>
-<% @cds.each do |c| %>
-<p><%= c.id%></p>
-</div>
-
-  <ul id="Audio-Control">
-    <% c.musics.each.with_index(1) do |a, x| %>
-  <li>
-    <audio  controls id="a<%= x %>"  src="<%= attachment_url(a, :audio) %>" />
-    <%= submit_tag "on!" %>
-    <%= submit_tag "stop!" %>
-  </li>
-</ul>
-<% end %>
-<% end %>
-
-
 
 <div class="modal fade" id="dialog2">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div>
         <%= form_with(model: @cd, local: true)  do |f| %>
-        <%= f.text_field :cd_title %><br>
-        <div>
-          <%= f.fields_for :musics do |i| %>
-            <%= render 'music_fields', f: i %>
-          <% end %>
-        <%= link_to_add_association 'AddAudio',f, :musics %>
-        </div>
-        <%= f.submit %>
-       <% end %>
+          <%= f.text_field :cd_title %><br>
+          <div>
+            <%= f.fields_for :musics do |i| %>
+              <%= render 'music_fields', f: i %>
+            <% end %>
+           <%= link_to_add_association 'AddAudio',f, :musics %>
+          </div>
+          <%= f.submit %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -57,15 +62,13 @@
 <div class="modal fade" id="dialog1">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-        <%= render "partial/qr_code" %>
+      <%= render "partial/qr_code" %>
     </div>
   </div>
 </div>
 
 
 <script type="text/javascript">
-
-
 $('#button1').on('click', function() {
     $('#dialog1').modal();
 });
@@ -92,13 +95,12 @@ for(var j=0;j<audios.length;j++){if( audios[ j ]!=this ){ audios[ j ].pause() } 
 }
 </script>
 
-
 <style type="text/css">
 li{
   list-style-type: none;
    float: left;
 }
-.contribution{
+.container{
   margin-top: 100px;
 }
 </style>

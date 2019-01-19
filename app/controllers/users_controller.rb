@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   protect_from_forgery except: :image_update
 
   def qr_code #QRコード作成メソッド
-    #QRコード作成
     @qr = RQRCode::QRCode.new(url_for :controller => 'users', :action => 'show', :only_path => false, :size => 8, :level => :h ).as_svg.html_safe
   end
 
@@ -24,44 +23,49 @@ class UsersController < ApplicationController
   end
 
   def admin #管理者画面
-    @users = User.all
+    @users  = User.page(params[:page]).reverse_order
+     if params[:content] == ""
+       @users = User.page(params[:page]).reverse_order
+     else
+       users = User.where('name LIKE ?', "%#{params[:content]}%").or(User.where('nick_name LIKE ?', "%#{params[:content]}%"))
+       if users == []
+         flash.now[:danger] = "ERROR!検索結果はありません。"
+       end
+       users_id = []
+       users.each do |f|
+         users_id.push(User.find(f.id))
+       end
+       @users = Kaminari.paginate_array(users_id).page(params[:page])
+     end
   end
 
   def update #更新アクション
+    @user = User.find(params[:id])
+    if@user.update(user_params)
+      flash[:success] = "ユーザー情報を更新しました。"
+      if @user.status == "gest"
+        redirect_to  root_path(current_user)
+      else
+        redirect_to  user_path(current_user)
+      end
+    else
+      flash.now[:danger] = "ユーザー情報の更新に失敗しました。記入内容を確認してください。"
+      if @user.status == "gest"
+        redirect_to  root_path(current_user)
+      else
+        redirect_to  user_path(current_user)
+      end
+    end
+  end
 
+  def st_up
     if current_user.status == "gest"
-      user = User.find(params[:id])
+      user = User.find(current_user.id)
       user.status = "contribution"
       user.save
       redirect_to user_path(current_user)
-
     end
-
-    if params[:user]
-      @user = User.find(params[:id])
-      if@user.update(user_params)
-        render :json => post
-        flash[:success] = "ユーザー情報を更新しました。"
-      else
-        render :template => "partial/profile"
-        flash.now[:danger] = "ユーザー情報の更新に失敗しました。記入内容を確認してください。"
-      end
-    end
-
   end
-
-  def image_update
-    @user = current_user
-    @user.update(user_params)
-    head :ok
-
-    #render :nothing
-    #render :partial => "profile", locals: {user: @user}
-  end
-
-  def nick_name_update
-  end
-
 
   def destroy #削除アクション
   end

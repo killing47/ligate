@@ -4,5 +4,4 @@ class Music < ApplicationRecord
   attachment :audio, extension: ["mp3", "mp4", "m4a", "aif", "wav"]
   attachment :cd_image
 
-
 end

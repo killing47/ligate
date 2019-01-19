@@ -1,19 +1,14 @@
-<div id="sp-menu">
-  <div class="wrap">
-  <% if current_user %>
-    <% if  current_user.email == ENV['EMAIL'] %>
-      <%= render "users/gest" %>
-    <% elsif  current_user.status == "contribution"  %>
-      <!-- <%= render "users/contribution" %> に戻す-->  <%= render "users/contribution" %>
-    <% else  %>
-      <!-- <%= render "users/contribution" %> に戻す--><%= render "users/admin" %>
+<div class="container-fruid " style="height: 100px; background-color: rgba(0,0,0,0.1);border-bottom: 2px solid gray">
+  <div id="sp-menu">
+    <div class="wrap">
+    <% if current_user %>
+        <%= render "users/user_hm" %>
+    <% else %>
+      <%= render "partial/sign_in" %>
     <% end %>
-  <% else %>
-    <%= render "partial/sign_in" %>
-  <% end %>
+    </div>
   </div>
 </div>
-
 <div>
   <h2 id="hm-logo">
    <%= link_to "後でロゴを入れる", top_path %>
@@ -25,6 +20,16 @@
     <% end %>
   </div>
 </div>
+
+<script type="text/javascript">
+$(function() {
+  $('.menu-trigger').on('click', function() {
+    $(this).toggleClass('active');
+    $('#sp-menu').fadeToggle();
+    return false;
+  });
+});
+</script>
 
 <style type="text/css">
 #hm-logo{
@@ -135,15 +140,3 @@ font-weight: bold;
   opacity: 0.5;
 }
 </style>
-
- <script type="text/javascript">
- $(function() {
-
-   $('.menu-trigger').on('click', function() {
-     $(this).toggleClass('active');
-     $('#sp-menu').fadeToggle();
-     return false;
-   });
-
- });
-</script>

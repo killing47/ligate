@@ -1,40 +1,28 @@
-<div id="top">
+<div id="top"></div>
 
-</div>
 <div class="slider1" >
-
-    <ul class="horizontal-list">
-      <% @cds.each do |c| %>
-      <li class="item itemsab">
-
-          <%= c.id%>
-
-      </li>
-
-      <div class="modal fade" id="dialog2">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
+  <ul class="horizontal-list">
+    <% @cds.each do |f| %>
+      <%= link_to user_path(f.user.id) do %>
+        <li class="item">
+          <%= attachment_image_tag  f, :cd_image, format: 'jpeg', fallback: "/no_image.jpg", size: "350x350", class: "item_image" %>
+        </li>
       <% end %>
-    </ul>
+    <% end %>
+  </ul>
 </div>
-
-<div class="border">
-
 
 <div class="slider2">
   <ul class="horizontal-list">
-    <% @users.each do |c| %>
-      <% if c.status == "contribution" %>
+    <% @users.each do |f| %>
+      <% if f.status == "contribution" %>
       <li class="item">
-        <%= link_to user_path(c.id) do %>
-          <%= render "users/user_image" %>
+        <%= link_to user_path(f.id) do %>
+          <%if f.image_id == nil %>
+            <%= image_tag(f.user_image,  :size => "350x350", class: "item_image") %>
+          <% else%>
+            <%= attachment_image_tag  f, :image, format: 'jpeg', size: "350x350", class: "item_image" %>
+          <% end %>
         <% end %>
       </li>
       <% end %>
@@ -42,13 +30,11 @@
   </ul>
 </div>
 
-
-
 <style type="text/css">
  #top{
    height: 400px;
    width: 100%;
-   background-color: blue;
+   background-color: none;
    opacity: 0.5;
  }
 .slider1, .slider2 {
@@ -57,23 +43,21 @@
   -webkit-overflow-scrolling: touch;
   margin-bottom: 20px;
   border-top: 3px solid rgba(0,0,0,0.5);
-
-
 }
-
 .item {
   /* 横スクロール用 */
   display: inline-block;
   width: 350px;
-
-
   /* 見た目調整 */
   height: 350px;
   margin: 16px;
   font-size: 48px;
 }
 
-.itemsab{
-  background: rgba(255, 0, 0, 0.4);
+.item_image{
+    border: 10px solid rgba(0, 0, 0, 0.4);
+    border-radius: 100px;
 }
+
+
 </style>

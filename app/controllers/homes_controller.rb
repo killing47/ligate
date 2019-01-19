@@ -8,6 +8,4 @@ class HomesController < ApplicationController
     @cds   = Cd.all
   end
 
-
-
 end

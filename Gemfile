@@ -99,4 +99,8 @@ gem 'dotenv-rails', groups: [:development, :test]
 #googleformgem
 gem 'omniauth-google-oauth2'
 
+#pry使用gem
 gem "pry-rails"
+
+#pagenationgem
+gem 'kaminari','~> 1.1.1'

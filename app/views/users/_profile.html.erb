@@ -1,75 +1,96 @@
-<div id="image_area">
-  
-  <%= render "users/user_image" %>
+<div class="profile">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-4  image" >
+      <%if current_user.image_id == nil %>
+        <%= image_tag(current_user.user_image,  :size => "200x200") %>
+      <% else%>
+        <%= attachment_image_tag  current_user, :image, format: 'jpeg', size: "200x200" , id:"image"%>
+      <% end %>
+      <%= form_with(model: @user, local: true, class: "image_form") do |f| %>
+        <%= f.file_field :image, class:"overlay",id: "file_field" , style: "color:white;"%>
+        <%= f.submit '変更',class: 'overlay' %>
+      <% end %>
+    </div>
 
+    <div class="col-4 name">
+      <h3>名前：<%= current_user.name%></h3>
+      <h4>ニックネーム：<%= current_user.nick_name %></h4>
+      <%= form_with(model: @user, local: true) do |f| %>
+        <%= f.text_field :nick_name, class: "overlay"  %>
+        <%= f.submit '変更',class: 'overlay' %>
+      <% end %>
+    </div>
+    <div class="colo-2 ch_btn1">
+      <a href="" id="btn" style="color: black;">変更モード</a>
+      <div class="overlay ch_btn2">
+        <a href="" id="close" style="color: black;">戻る</a><br>
+      </div>
+      <div class="overlay ch_btn3">
+        <%# if current_user.email != ENV['EMAIL'] %>
+          <%= link_to "退会する", user_path(current_user), "data-confirm" => "本当に退会しますか？",
+              method: :delete, style: "color: black;" %>
+        <%# end %>
+      </div>
+    </div>
+  </div>
 </div>
-<%= form_with(model: @user,url:  image_update_path,id: "image1") do |f| %>
-  <%= f.hidden_field :id, value:current_user.id %>
-  <%= f.file_field :image,id: "file_field" %></br>
-  <%= f.submit %>
-<% end %>
-
-<p>name:<%= current_user.name %></p>
-<%= form_with(model: @user) do |f| %>
-  <%= f.text_field :nick_name %>
-  <%= f.submit %>
-<% end %>
-
-<%=link_to "退会する", user_path(current_user), "data-confirm" => "本当に退会しますか？", method: :delete, style: "color: black;" %>
-
 
 <script type="text/javascript">
 
-var file = document.querySelector('#file_field');
-    file.onchange = function (){
-      // $('.circle, .form_wrapper').remove();
-      var fileList = file.files;
-      if (file.files[0] == null) {
-        document.querySelector('#image').src = "";
-      } else {
-        //読み込み
-        var reader = new FileReader();
-        reader.readAsDataURL(fileList[0]);
-        //読み込み後
-        reader.onload = function  () {
-          document.querySelector('#image').src = reader.result;
-        };
-      };
-    };
-
-$('#image1').on('submit', function(e) {
-  e.preventDefault();
-  var formData = new FormData($(this).get(0));
-  $.ajax($(this).attr('action'), {
-    type: 'post',
-    processData: false,
-    contentType: false,
-    data: formData,
+$(function() {
+  $(".overlay").css("display", "none");
+  $("#close").click(function() {
+    $(".overlay").fadeOut(); /*ふわっと消える*/
+    return false;
   });
-  return false;
+  $("#btn").click(function() {
+    $(".overlay").fadeIn(); /*ふわっと表示*/
+    return false;
+  });
 });
 
-
-  /*$('#image1').change(function() {
-    var file = this.files[0];
-    var filetype = file["type"];
-    console.log(file)
-    console.log(filetype)
-     $.ajax({
-      type: 'post',
-      url: '/image_update',
-      processData: false,
-      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-      data: file,
-      headers: {
-        "Content-Type": filetype
-      }
-    }).done(function(response){
-      console.log('succes!');  // レスポンスがあったとき
-    }).fail(function() {
-       console.log('error!'); // エラーが発生したとき
-    });
-  }); */
-
-
+var file = document.querySelector('#file_field');
+  file.onchange = function (){
+    // $('.circle, .form_wrapper').remove();
+    var fileList = file.files;
+    if (file.files[0] == null) {
+      document.querySelector('#image').src = "";
+    } else {
+      //読み込み
+      var reader = new FileReader();
+      reader.readAsDataURL(fileList[0]);
+      //読み込み後
+      reader.onload = function  () {
+        document.querySelector('#image').src = reader.result;
+      };
+    };
+  };
 </script>
+
+<style type="text/css">
+.profile{
+  color: black;
+}
+.image{
+  border-radius: 200px;
+}
+.image_form{
+  padding-top:   5px;
+  padding-left:  35px;
+}
+.name{
+  margin-top:    25px;
+  padding-left:  10px;
+}
+.ch_btn1{
+  margin-top:    25px;
+  padding-left:  10px;
+}
+.ch_btn2{
+  margin-top:    20px;
+}
+.ch_btn3{
+  margin-top:    140px;
+}
+</style>
