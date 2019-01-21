@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_15_032616) do
+ActiveRecord::Schema.define(version: 2019_01_19_035448) do
 
   create_table "cds", force: :cascade do |t|
     t.string "cd_title"
     t.string "cd_image_id"
     t.string "cd_genre"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "cd_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -1,41 +1,93 @@
-<div class=" container">
+<div class=" container" style="margin: 120px auto;">
   <div class="row">
-    <div class="col-6  image" >
-      <%if current_user.image_id == nil %>
-        <%= image_tag(current_user.user_image,  :size => "350x350", id:"imgage") %>
+    <div class="col-5  image" style="text-align: center;" >
+      <%if @user.image_id == nil %>
+        <%= image_tag(@user.user_image,  :size => "300x300", id:"imgage") %>
       <% else%>
-        <%= attachment_image_tag  current_user, :image, format: 'jpeg', size:"350x350" , id:"image"%>
+        <%= attachment_image_tag  @user, :image, format: 'jpeg', size:"300x300" , id:"image"%>
       <% end %>
     </div>
-    <div class="col-6 name">
-      <h1><%= current_user.nick_name %></h1>
+    <div class="col-7 name" style="padding-left: 25px;" >
+      <div class="row">
+        <div class="col-5 ">
+          <h2>CB:<%= @user.nick_name %></h2>
+        </div>
+        <div class="col-7" style="text-align: right;">
+          <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",  class: "btn btn-primary"%>
+          <button type="button" class="btn btn-primary " id="button1">QR</button>
+          <% if current_user %>
+            <button type="button" class="btn btn-primary " id="button3">CHANGE</button><br>
+            <button type="button" class="btn btn-primary " id="button2" style="margin-top: 10px;">CD追加</button>
+            <button type="button" class="btn btn-primary " id="button4"  style="margin-top: 10px;">CD変更</button>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12"><h1>Introduction:</h1></div>
+      </div>
+      <div class="row">
+        <div class="col-12" style="height: 100%; width: 100%; border: 1px solid black; margin-left: 3%;">
+          <%=  simple_format(@user.introduction) %>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
+<div class="container-fruid" >
   <div class="row">
     <div class="col-12">
-      <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",  class: "btn btn-primary"%>
-      <button type="button" class="btn btn-primary " id="button1">Click</button>
-      <button type="button" class="btn btn-primary " id="button2" >Click</button>
-      <div class="slider1" >
-        <ul class="horizontal-list">
-          <% @user.cds.each do |c| %>
-          <li class="item"><%= c.id%></li>
+      <ul class="slider" >
+        <% @user.cds.each do |f| %>
+        <% if f.favorited_by?(current_user) %>
+          <%= link_to fav_cds_path(f), class: "fav aaaa", remote: true do %>
+            <i class="fas fa-heart" id="<%= f.id %>"></i>
           <% end %>
-        </ul>
-      </div>
-      <% @cds.each do |c| %>
-        <p><%= c.id%></p>
-        <ul id="Audio-Control">
-          <% c.musics.each.with_index(1) do |a, x| %>
-          <li>
-            <audio  controls id="a<%= x %>"  src="<%= attachment_url(a, :audio) %>" />
-            <%= submit_tag "on!" %>
-            <%= submit_tag "stop!" %>
-          </li>
-        </ul>
+        <% else %>
+          <%= link_to fav_cds_path(f), class: "fav bbbb", remote: true do %>
+            <i class="far fa-heart" id="<%= f.id %>"></i>
+          <% end %>
         <% end %>
-      <% end %>
+        <li class="item" style="border: 1px solid gray;" >
+          <%= link_to op_cd_path(f),id:"op", remote: true do %>
+            <%= attachment_image_tag  f, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "250x250", id: "#{f.id}"  %>
+          <% end %>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id= "cd_show">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" >
+      <h3>Select_CD</h3>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="container" style="margin-top:0;" >
+  <div class="row" >
+      <div class="col-12 sample-dialog"  style="margin-top: 100px; border: 3px solid black;" id="">
+
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="dialog1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <%= render "partial/qr_code" %>
     </div>
   </div>
 </div>
@@ -59,14 +111,23 @@
   </div>
 </div>
 
-<div class="modal fade" id="dialog1">
+<div class="modal fade" id="dialog3">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <%= render "partial/qr_code" %>
+      <%= form_with(model: @user, local: true) do |f| %>
+      <%if @user.image_id == nil %>
+        <%= image_tag(@user.user_image,  :size => "350x350", id:"imgage") %>
+      <% else%>
+        <%= attachment_image_tag  @user, :image, format: 'jpeg', size:"350x350" , id:"image"%>
+      <% end %>
+        <%= f.file_field :image,id: "file_field" , style: "color:white;"%>
+        <%= f.text_field :nick_name  %>
+        <%= f.text_area :introduction, style:"color: black;" %>
+        <%= f.submit '変更' %>
+      <% end %>
     </div>
   </div>
 </div>
-
 
 <script type="text/javascript">
 $('#button1').on('click', function() {
@@ -81,26 +142,65 @@ $('#button3').on('click', function() {
     $('#dialog3').modal();
 });
 
-document.querySelector('#on1').onclick = function () {
-        document.querySelector("#a1").play();
-        }
-document.querySelector('#of1').onclick = function () {
-        document.querySelector("#a1").pause();
-                }
-var audios = document.querySelectorAll( "audio" );
-for(var i=0;i<audios.length;i++){
-audios[ i ].addEventListener( "play", function(){
-for(var j=0;j<audios.length;j++){if( audios[ j ]!=this ){ audios[ j ].pause() } {audios[ j ].currentTime = 0;}}
-}, false );
-}
+$('#button4').on('click', function() {
+    $('#dialog4').modal();
+});
+
+// $(function() {
+//     $(document).on("ajax:success", ".fas .far", function(e) {
+//          data = e.detail[2];
+//
+//       if ($('#' + e.detail[0]).hasClass('fas')) {
+//         console.log(data);
+//         $('#' + e.detail[0]).removeClass('fas').addClass('far');
+//         $('.favorite_cb').prepend( e.detail[0]);
+//       } else {
+//     $('#' + e.detail[0]).removeClass('far').addClass('fas');
+//       $('.favorite_cb').prepend(e.detail[0] );
+//       }
+//     })
+//   })
+
+
+
+
+$(function(){
+  $(document).on("ajax:success","#op",function(e){
+       data = e.detail[0];
+
+       $("#cd_show").html(e.detail[2]['response']).modal();
+
+  })
+})
 </script>
 
 <style type="text/css">
-li{
-  list-style-type: none;
-   float: left;
-}
 .container{
   margin-top: 100px;
+}
+.fa-heart {
+    color: red;
+  }
+.slider{
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 20px;
+  border-top: 3px solid rgba(0,0,0,0.5);
+  border-bottom: 3px solid rgba(0,0,0,0.5);
+}
+.item {
+  /* 横スクロール用 */
+  display: inline-block;
+  width: 350px;
+  /* 見た目調整 */
+  height: 350px;
+  margin: 16px;
+  font-size: 48px;
+}
+
+.item_image{
+  border: 10px solid rgba(0, 0, 0, 0.4);
+  border-radius: 100px;
 }
 </style>

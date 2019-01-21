@@ -13,6 +13,24 @@ class CdsController < ApplicationController
   def destroy
   end
 
+  def fav
+    cd = Cd.find(params[:id])
+    if cd.favorited_by?(current_user)
+      fav = current_user.favorites.find_by(cd_id: cd.id)
+      fav.destroy
+      render json: cd
+    else
+      fav = current_user.favorites.new(cd_id: cd.id)
+      fav.save
+      render json: cd.id
+    end
+  end
+
+  def op_cd
+    cd = Cd.find(params[:id])
+    render partial: 'partial/cd.show', locals: { :cd => cd }
+  end
+
   private
 
   def cd_params

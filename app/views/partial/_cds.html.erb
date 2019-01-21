@@ -1,19 +1,22 @@
-<div class="slider">
-
+<div class="favorite_cb">
+  <% user = [] %>
+  <% current_user.favorites.each do |f| %>
+    <% if !user.include?(f.cd.user.id)%>
+      <% user.push(f.cd.user.id) %>
+      <%= link_to user_path(f.user.id) do %>
+        <%if f.cd.user.image_id == nil %>
+          <%= image_tag(f.cd.user_image,  :size => "350x350", class: "item_image") %>
+        <% else%>
+          <%= attachment_image_tag  f.cd.user, :image, format: 'jpeg',fallback: "/no_image.jpg", size: "95x95"%>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 </div>
-<div>
-  <%#= attachment_image_tag  current_user, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "95x95"%>
-  <%= %>
-  <%= %>
-  <%= %>
-</div>
-<div>
-  <h1>music</h1>
-  <div>
-    <btn></btn><btn></btn><btn></btn><btn></btn><btn></btn><btn></btn>
-    <each>
-  </div>
-</div>
-<div>
-  <%#= render "partial/play_list" %>
+<div class="favorite_cd">
+  <% current_user.favorites.each do |f| %>
+    <%= link_to user_path(f.user.id) do %>
+      <%= attachment_image_tag  f.cd, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "95x95",style: "bordr: 1px solid black"%>
+    <% end %>
+  <% end %>
 </div>

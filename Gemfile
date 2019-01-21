@@ -73,7 +73,10 @@ gem "cocoon"
 gem "jquery-rails"
 
 # bootstrap4gem
-gem 'bootstrap', '~> 4.1.1'
+gem 'bootstrap', '~> 4.1.3'
+
+#font-awesomegem
+gem 'font-awesome-sass', '~> 5.2.0'
 
 # PDF作成gem
 gem 'wicked_pdf'

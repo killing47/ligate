@@ -3,9 +3,9 @@
     <div class="col-1"></div>
     <div class="col-4  image" >
       <%if current_user.image_id == nil %>
-        <%= image_tag(current_user.user_image,  :size => "200x200") %>
+        <%= image_tag(current_user.user_image,  :size => "200x200", id:"image1", class: "image") %>
       <% else%>
-        <%= attachment_image_tag  current_user, :image, format: 'jpeg', size: "200x200" , id:"image"%>
+        <%= attachment_image_tag  current_user, :image, format: 'jpeg', size: "200x200", id:"image2" %>
       <% end %>
       <%= form_with(model: @user, local: true, class: "image_form") do |f| %>
         <%= f.file_field :image, class:"overlay",id: "file_field" , style: "color:white;"%>
@@ -13,7 +13,7 @@
       <% end %>
     </div>
 
-    <div class="col-4 name">
+    <div class="col-5 name">
       <h3>名前：<%= current_user.name%></h3>
       <h4>ニックネーム：<%= current_user.nick_name %></h4>
       <%= form_with(model: @user, local: true) do |f| %>
@@ -21,16 +21,16 @@
         <%= f.submit '変更',class: 'overlay' %>
       <% end %>
     </div>
-    <div class="colo-2 ch_btn1">
+    <div class="colo-1 ch_btn1">
       <a href="" id="btn" style="color: black;">変更モード</a>
       <div class="overlay ch_btn2">
         <a href="" id="close" style="color: black;">戻る</a><br>
       </div>
       <div class="overlay ch_btn3">
-        <%# if current_user.email != ENV['EMAIL'] %>
+        <% if current_user.email != ENV['EMAIL'] %>
           <%= link_to "退会する", user_path(current_user), "data-confirm" => "本当に退会しますか？",
               method: :delete, style: "color: black;" %>
-        <%# end %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -55,14 +55,14 @@ var file = document.querySelector('#file_field');
     // $('.circle, .form_wrapper').remove();
     var fileList = file.files;
     if (file.files[0] == null) {
-      document.querySelector('#image').src = "";
+      document.querySelector('#image1,#image').src = "";
     } else {
       //読み込み
       var reader = new FileReader();
       reader.readAsDataURL(fileList[0]);
       //読み込み後
       reader.onload = function  () {
-        document.querySelector('#image').src = reader.result;
+        document.querySelector('#image1, #image2').src = reader.result;
       };
     };
   };

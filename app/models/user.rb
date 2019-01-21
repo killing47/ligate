@@ -3,6 +3,7 @@ class User < ApplicationRecord
   enum status: {gest: 0,contribution: 1,unsubscribe: 2}
   has_many :cds, dependent: :destroy
   has_many :load_music, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   attachment :image
 
   def self.from_omniauth(auth)
@@ -17,5 +18,5 @@ class User < ApplicationRecord
      return user
    end
   end
-  
+
 end

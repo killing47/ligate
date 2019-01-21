@@ -12,10 +12,22 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
 //= require jquery3
 //= require popper
-//= require bootstrap-sprockets
+//= require bootstrap
 //= require cocoon
+//= require turbolinks
 //= require_tree .
-//
+
+
+$(function() {
+    $(document).on("ajax:success", ".fav", function(e) {
+         data = e.detail[0]
+         console.log();
+      if ($('#' + e.detail[0]).hasClass('fas')) {
+        $('#' + e.detail[0]).removeClass('fas').addClass('far');
+      } else {
+    $('#' + e.detail[0]).removeClass('far').addClass('fas');
+      }
+    })
+  })
