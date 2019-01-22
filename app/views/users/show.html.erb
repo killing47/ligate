@@ -2,9 +2,9 @@
   <div class="row">
     <div class="col-5  image" style="text-align: center;" >
       <%if @user.image_id == nil %>
-        <%= image_tag(@user.user_image,  :size => "300x300", id:"imgage") %>
+        <%= image_tag(@user.user_image,  :size => "300x300", class:"image") %>
       <% else%>
-        <%= attachment_image_tag  @user, :image, format: 'jpeg', size:"300x300" , id:"image"%>
+        <%= attachment_image_tag  @user, :image, format: 'jpeg', size:"300x300" , class:"image"%>
       <% end %>
     </div>
     <div class="col-7 name" style="padding-left: 25px;" >
@@ -16,9 +16,9 @@
           <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",  class: "btn btn-primary"%>
           <button type="button" class="btn btn-primary " id="button1">QR</button>
           <% if current_user %>
-            <button type="button" class="btn btn-primary " id="button3">CHANGE</button><br>
-            <button type="button" class="btn btn-primary " id="button2" style="margin-top: 10px;">CD追加</button>
-            <button type="button" class="btn btn-primary " id="button4"  style="margin-top: 10px;">CD変更</button>
+            <button type="button" class="btn btn-primary " id="button3">S−IDT</button><br>
+            <button type="button" class="btn btn-primary " id="button2" style="margin-top: 10px;">AddCD</button>
+            <button type="button" class="btn btn-primary " id="button4"  style="margin-top: 10px;">ChangeCD</button>
           <% end %>
         </div>
       </div>
@@ -37,21 +37,25 @@
 <div class="container-fruid" >
   <div class="row">
     <div class="col-12">
-      <ul class="slider" >
+      <ul class="slider">
         <% @user.cds.each do |f| %>
-        <% if f.favorited_by?(current_user) %>
-          <%= link_to fav_cds_path(f), class: "fav aaaa", remote: true do %>
-            <i class="fas fa-heart" id="<%= f.id %>"></i>
+        <li class="item">
+          <div style="position: relative;">
+          <% if current_user %>
+          <% if f.favorited_by?(current_user) %>
+            <%= link_to fav_cds_path(f), class: "fav", remote: true do %>
+              <i class="fas fa-heart" id="<%= f.id %>"></i>
+            <% end %>
+          <% else %>
+            <%= link_to fav_cds_path(f), class: "fav", remote: true do %>
+              <i class="far fa-heart" id="<%= f.id %>"></i>
+            <% end %>
           <% end %>
-        <% else %>
-          <%= link_to fav_cds_path(f), class: "fav bbbb", remote: true do %>
-            <i class="far fa-heart" id="<%= f.id %>"></i>
           <% end %>
-        <% end %>
-        <li class="item" style="border: 1px solid gray;" >
           <%= link_to op_cd_path(f),id:"op", remote: true do %>
-            <%= attachment_image_tag  f, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "250x250", id: "#{f.id}"  %>
+            <%= attachment_image_tag  f, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "200x200", id: "#{f.id}"%>
           <% end %>
+          </div>
         </li>
         <% end %>
       </ul>
@@ -64,23 +68,6 @@
     <div class="modal-content" >
       <h3>Select_CD</h3>
     </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-<div class="container" style="margin-top:0;" >
-  <div class="row" >
-      <div class="col-12 sample-dialog"  style="margin-top: 100px; border: 3px solid black;" id="">
-
-      </div>
   </div>
 </div>
 
@@ -97,12 +84,14 @@
     <div class="modal-content">
       <div>
         <%= form_with(model: @cd, local: true)  do |f| %>
+          <%= f.file_field :cd_image,style: "color:white; margin-left: 190px;"%>
           <%= f.text_field :cd_title %><br>
+          <%= f.text_field :cd_genre %>
           <div>
             <%= f.fields_for :musics do |i| %>
               <%= render 'music_fields', f: i %>
             <% end %>
-           <%= link_to_add_association 'AddAudio',f, :musics %>
+           <%= link_to_add_association 'AddMusic',f, :musics %>
           </div>
           <%= f.submit %>
         <% end %>
@@ -113,21 +102,16 @@
 
 <div class="modal fade" id="dialog3">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content" style="text-align: center;">
       <%= form_with(model: @user, local: true) do |f| %>
-      <%if @user.image_id == nil %>
-        <%= image_tag(@user.user_image,  :size => "350x350", id:"imgage") %>
-      <% else%>
-        <%= attachment_image_tag  @user, :image, format: 'jpeg', size:"350x350" , id:"image"%>
-      <% end %>
-        <%= f.file_field :image,id: "file_field" , style: "color:white;"%>
-        <%= f.text_field :nick_name  %>
-        <%= f.text_area :introduction, style:"color: black;" %>
-        <%= f.submit '変更' %>
+        <%= f.label :introduction%><br />
+        <%= f.text_area :introduction, style:"color: black; width: 80%; height: 150px;" %><br />
+        <%= f.submit '変更',style: "margin-left: 300px; width: 100px;" %>
       <% end %>
     </div>
   </div>
 </div>
+
 
 <script type="text/javascript">
 $('#button1').on('click', function() {
@@ -146,30 +130,9 @@ $('#button4').on('click', function() {
     $('#dialog4').modal();
 });
 
-// $(function() {
-//     $(document).on("ajax:success", ".fas .far", function(e) {
-//          data = e.detail[2];
-//
-//       if ($('#' + e.detail[0]).hasClass('fas')) {
-//         console.log(data);
-//         $('#' + e.detail[0]).removeClass('fas').addClass('far');
-//         $('.favorite_cb').prepend( e.detail[0]);
-//       } else {
-//     $('#' + e.detail[0]).removeClass('far').addClass('fas');
-//       $('.favorite_cb').prepend(e.detail[0] );
-//       }
-//     })
-//   })
-
-
-
-
 $(function(){
   $(document).on("ajax:success","#op",function(e){
-       data = e.detail[0];
-
-       $("#cd_show").html(e.detail[2]['response']).modal();
-
+    $("#cd_show").html(e.detail[2]['response']).modal();
   })
 })
 </script>
@@ -192,9 +155,9 @@ $(function(){
 .item {
   /* 横スクロール用 */
   display: inline-block;
-  width: 350px;
+  width: 200px;
   /* 見た目調整 */
-  height: 350px;
+  height: 200px;
   margin: 16px;
   font-size: 48px;
 }
@@ -202,5 +165,18 @@ $(function(){
 .item_image{
   border: 10px solid rgba(0, 0, 0, 0.4);
   border-radius: 100px;
+}
+
+.image{
+  border-radius: 150px;
+}
+
+.fav{
+  position: absolute;
+  z-index: 2;
+}
+
+#op{
+  z-index: 1;
 }
 </style>

@@ -19,15 +19,16 @@
 //= require turbolinks
 //= require_tree .
 
-
 $(function() {
-    $(document).on("ajax:success", ".fav", function(e) {
-         data = e.detail[0]
-         console.log();
-      if ($('#' + e.detail[0]).hasClass('fas')) {
-        $('#' + e.detail[0]).removeClass('fas').addClass('far');
-      } else {
-    $('#' + e.detail[0]).removeClass('far').addClass('fas');
-      }
-    })
+  $(document).on("ajax:success", ".fav", function(e) {
+    data = e.detail[0]
+    console.log();
+    if ($('#' + e.detail[0]['cd']['id']).hasClass('fas')) {
+      $('#' + e.detail[0]['cd']['id']).removeClass('fas').addClass('far');
+      $('.favorite_cd').html('<p>' + e.detail[0]['cd_titles'] + '</p>');
+    } else {
+      $('#' + e.detail[0]['cd']['id']).removeClass('far').addClass('fas');
+      $('.favorite_cd').html('<p>' + e.detail[0]['cd_titles'] + '</p>');
+    }
   })
+})

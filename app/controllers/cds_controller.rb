@@ -18,11 +18,17 @@ class CdsController < ApplicationController
     if cd.favorited_by?(current_user)
       fav = current_user.favorites.find_by(cd_id: cd.id)
       fav.destroy
-      render json: cd
+      @user = current_user
+      cd_titles = current_user.favorites.map{|fav| fav.cd.cd_title}
+      #render json: cd
+      render json: {:cd => cd ,:@user => @user,:cd_titles => cd_titles}
     else
       fav = current_user.favorites.new(cd_id: cd.id)
       fav.save
-      render json: cd.id
+      @user = current_user
+      cd_titles = current_user.favorites.map{|fav| fav.cd.cd_title}
+    #  render json: cd
+      render json: {:cd => cd ,:@user => @user,:cd_titles => cd_titles}
     end
   end
 

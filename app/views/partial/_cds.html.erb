@@ -1,22 +1,36 @@
+<div class="favorite">
+<h1 class="favorite_style">Contributor</h1>
 <div class="favorite_cb">
   <% user = [] %>
   <% current_user.favorites.each do |f| %>
     <% if !user.include?(f.cd.user.id)%>
       <% user.push(f.cd.user.id) %>
       <%= link_to user_path(f.user.id) do %>
-        <%if f.cd.user.image_id == nil %>
-          <%= image_tag(f.cd.user_image,  :size => "350x350", class: "item_image") %>
-        <% else%>
-          <%= attachment_image_tag  f.cd.user, :image, format: 'jpeg',fallback: "/no_image.jpg", size: "95x95"%>
-        <% end %>
       <% end %>
     <% end %>
   <% end %>
 </div>
+<h1 class="favorite_style">CD_Title</h1>
 <div class="favorite_cd">
-  <% current_user.favorites.each do |f| %>
-    <%= link_to user_path(f.user.id) do %>
-      <%= attachment_image_tag  f.cd, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "95x95",style: "bordr: 1px solid black"%>
+  <p>
+    <% current_user.favorites.each do |f| %>
+      <%= link_to user_path(f.user.id) ,style: "color:black;" do %>
+        <%= f.cd.cd_title %>,
+      <% end %>
     <% end %>
-  <% end %>
+  </p>
 </div>
+</div>
+<style type="text/css">
+.favorite_cd p{
+  font-size: 30px;
+  padding-left: 20px;
+}
+.favorite_style{
+  color:black;
+}
+.favorite{
+ margin-left: 50px;
+}
+
+</style>

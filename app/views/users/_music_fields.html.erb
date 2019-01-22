@@ -1,5 +1,6 @@
 <!-- 動的form(music) -->
 <div class="nested-fields">
+  <%= f.text_field :music_title %>
   <%= f.attachment_field :audio %>
   <%= link_to_remove_association "DestroyAudio", f %>
 </div>

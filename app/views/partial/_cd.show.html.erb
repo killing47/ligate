@@ -1,23 +1,22 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content" >
-<div >
-
-  <%= attachment_image_tag  cd, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "250x250" %>
-  <ul id="Audio-Control">
-    <% cd.musics.each do |a| %>
-    <li>
-      <audio class="mu_play" controls src="<%= attachment_url(a, :audio) %>" />
-      <button type="button" class="btn btn-primary on">ON</button><br>
-      <button type="button" class="btn btn-primary off">OFF</button><br>
-    </li>
-    <% end %>
-  </ul>
+    <div>
+      <%= attachment_image_tag  cd, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "250x250" %>
+      <ul id="Audio-Control">
+        <% cd.musics.each do |a| %>
+          <li>
+            <audio>
+              <source src="<%= attachment_url(a, :audio) %>" type="audio/mp3">
+              <source src="<%= attachment_url(a, :audio) %>" type="audio/ogg">
+            </audio>
+            <button type="button" class="btn btn-primary on">ON</button>
+            <button type="button" class="btn btn-primary off">OFF</button>
+         </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </div>
-</div>
-<div>
-  
-</div>
-
 
 <script type="text/javascript">
 $(document).on('click', '.on',function(){
@@ -31,14 +30,10 @@ $(document).on('click', '.off',function(){
   $(this).prevAll("audio").get(0).pause();
 });
 
-
-
-
 var audios = document.querySelectorAll( "audio" );
 for(var i=0;i<audios.length;i++){
 audios[ i ].addEventListener( "play", function(){
 for(var j=0;j<audios.length;j++){if( audios[ j ]!=this ){ audios[ j ].pause() } {audios[ j ].currentTime = 0;}}
 }, false );
 }
-
 </script>
