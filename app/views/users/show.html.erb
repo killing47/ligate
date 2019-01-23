@@ -13,12 +13,11 @@
           <h2>CB:<%= @user.nick_name %></h2>
         </div>
         <div class="col-7" style="text-align: right;">
-          <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",  class: "btn btn-primary"%>
-          <button type="button" class="btn btn-primary " id="button1">QR</button>
+          <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",  class: "btn btn-primary", style:" width: 73px;"%>
+          <button type="button" class="btn btn-primary " id="button1" style="width: 77px;">QR</button><br>
           <% if current_user %>
-            <button type="button" class="btn btn-primary " id="button3">S−IDT</button><br>
+            <button type="button" class="btn btn-primary " id="button3" style="margin-top: 10px;">S−IDT</button>
             <button type="button" class="btn btn-primary " id="button2" style="margin-top: 10px;">AddCD</button>
-            <button type="button" class="btn btn-primary " id="button4"  style="margin-top: 10px;">ChangeCD</button>
           <% end %>
         </div>
       </div>
@@ -42,16 +41,21 @@
         <li class="item">
           <div style="position: relative;">
           <% if current_user %>
-          <% if f.favorited_by?(current_user) %>
-            <%= link_to fav_cds_path(f), class: "fav", remote: true do %>
-              <i class="fas fa-heart" id="<%= f.id %>"></i>
-            <% end %>
-          <% else %>
-            <%= link_to fav_cds_path(f), class: "fav", remote: true do %>
-              <i class="far fa-heart" id="<%= f.id %>"></i>
+            <% if f.favorited_by?(current_user) %>
+              <%= link_to fav_cds_path(f), class: "fav", remote: true do %>
+                <i class="fas fa-heart" id="<%= f.id %>"></i>
+              <% end %>
+            <% else %>
+              <%= link_to fav_cds_path(f), class: "fav", remote: true do %>
+                <i class="far fa-heart" id="<%= f.id %>"></i>
+              <% end %>
             <% end %>
           <% end %>
-          <% end %>
+          <% if current_user %>
+            <%= link_to "Che", edit_user_path(f), class: "btn btn-primary ch_cd"%>
+            <%= link_to "Del", cd_path(f.id), method: :delete,"data-confirm" => "本当に削除しますか？", class: "btn btn-danger ch_de" %>
+          <% end%>
+          <p class="cd_title"><%= f.cd_title%></p>
           <%= link_to op_cd_path(f),id:"op", remote: true do %>
             <%= attachment_image_tag  f, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "200x200", id: "#{f.id}"%>
           <% end %>
@@ -82,18 +86,18 @@
 <div class="modal fade" id="dialog2">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div>
+      <div class="add_music">
         <%= form_with(model: @cd, local: true)  do |f| %>
-          <%= f.file_field :cd_image,style: "color:white; margin-left: 190px;"%>
-          <%= f.text_field :cd_title %><br>
-          <%= f.text_field :cd_genre %>
+          <%= f.label :cd_image,style: "margin-right:1px;" %>   ：<%= f.attachment_field  :cd_image %><br>
+          <%= f.label :cd_title ,style: "margin-right:1px;"%>　 ：<%= f.text_field :cd_title %><br>
+          <%= f.label :cd_genre,style: "margin-right:2px;" %>   ：<%= f.text_field :cd_genre %><br>
           <div>
             <%= f.fields_for :musics do |i| %>
               <%= render 'music_fields', f: i %>
             <% end %>
            <%= link_to_add_association 'AddMusic',f, :musics %>
           </div>
-          <%= f.submit %>
+          <%= f.submit "Create" , style: "margin-left:400px;" %>
         <% end %>
       </div>
     </div>
@@ -111,7 +115,6 @@
     </div>
   </div>
 </div>
-
 
 <script type="text/javascript">
 $('#button1').on('click', function() {
@@ -132,6 +135,7 @@ $('#button4').on('click', function() {
 
 $(function(){
   $(document).on("ajax:success","#op",function(e){
+    data = e.detail[0]
     $("#cd_show").html(e.detail[2]['response']).modal();
   })
 })
@@ -179,4 +183,36 @@ $(function(){
 #op{
   z-index: 1;
 }
+
+.add_music{
+  padding:20px;
+}
+
+.add_music a{
+  color: black;
+}
+
+.add_music a:hover{
+  opacity: 0.5;
+  text-decoration: none;
+}
+
+.ch_cd{
+  position: absolute;
+  bottom: 0;
+  right: 50px;
+}
+.ch_de{
+  position: absolute;
+  bottom: 0;
+  right:  0;
+}
+.cd_title{
+  font-size:5px;
+  background-color: white;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 </style>

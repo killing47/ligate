@@ -11,6 +11,9 @@ class CdsController < ApplicationController
   end
 
   def destroy
+    cd = Cd.find(params[:id])
+    cd.destroy
+    redirect_to user_path(current_user.id)
   end
 
   def fav
@@ -18,17 +21,19 @@ class CdsController < ApplicationController
     if cd.favorited_by?(current_user)
       fav = current_user.favorites.find_by(cd_id: cd.id)
       fav.destroy
-      @user = current_user
-      cd_titles = current_user.favorites.map{|fav| fav.cd.cd_title}
+      user = current_user
+      user_name = current_user.favorites.map{|u_n| u_n.cd .user.nick_name}.uniq
+      cd_titles = current_user.favorites.map{|c_t| c_t.cd.cd_title}
       #render json: cd
-      render json: {:cd => cd ,:@user => @user,:cd_titles => cd_titles}
+      render :json =>{:cd => cd ,:user_name => user_name, :cd_titles => cd_titles}
     else
       fav = current_user.favorites.new(cd_id: cd.id)
       fav.save
-      @user = current_user
-      cd_titles = current_user.favorites.map{|fav| fav.cd.cd_title}
+      user = current_user
+      user_name = current_user.favorites.map{|u_n| u_n.cd .user.nick_name}.uniq
+      cd_titles = current_user.favorites.map{|c_t| c_t.cd.cd_title}
     #  render json: cd
-      render json: {:cd => cd ,:@user => @user,:cd_titles => cd_titles}
+      render :json => {:cd => cd ,:user_name => user_name, :cd_titles => cd_titles}
     end
   end
 
@@ -40,6 +45,6 @@ class CdsController < ApplicationController
   private
 
   def cd_params
-    params.require(:cd).permit(:user_id,:cd_title, :cd_imgage, :cd_genre, musics_attributes: [:id, :cd_id, :audio, :music_title, :_destroy])
+    params.require(:cd).permit(:user_id,:cd_title, :cd_image, :cd_genre, musics_attributes: [:id, :cd_id, :audio, :music_title, :_destroy])
   end
 end

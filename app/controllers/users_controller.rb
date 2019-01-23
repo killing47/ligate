@@ -39,6 +39,10 @@ class UsersController < ApplicationController
      end
   end
 
+  def edit
+    @cd = Cd.find(params[:id])
+  end
+
   def update #更新アクション
     @user = User.find(params[:id])
     if@user.update(user_params)

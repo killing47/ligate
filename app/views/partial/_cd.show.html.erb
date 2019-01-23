@@ -1,19 +1,31 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content" >
-    <div>
-      <%= attachment_image_tag  cd, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "250x250" %>
-      <ul id="Audio-Control">
-        <% cd.musics.each do |a| %>
-          <li>
-            <audio>
-              <source src="<%= attachment_url(a, :audio) %>" type="audio/mp3">
-              <source src="<%= attachment_url(a, :audio) %>" type="audio/ogg">
-            </audio>
-            <button type="button" class="btn btn-primary on">ON</button>
-            <button type="button" class="btn btn-primary off">OFF</button>
-         </li>
-        <% end %>
-      </ul>
+    <div class="cd_show">
+      <div class="row">
+        <div class="col-6">
+            <%= attachment_image_tag  cd, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "250x250" %>
+        </div>
+        <div class="col-6">
+          <%= cd.cd_title %>
+          <%= cd.cd_genre %>
+        </div>
+      </div>
+      <div class="row" style="text-align: center;">
+        <ul id="Audio-Control">
+          <% cd.musics.each do |a| %>
+            <li>
+              <audio>
+                <source src="<%= attachment_url(a, :audio) %>" type="audio/mp3">
+                <source src="<%= attachment_url(a, :audio) %>" type="audio/ogg">
+              </audio>
+              <button type="button" class="btn btn-primary on">ON</button>
+              <button type="button" class="btn btn-primary off">OFF</button>
+           </li>
+             <end>
+          <% end %>
+        </ul>
+      </div>
+
     </div>
   </div>
 </div>
@@ -37,3 +49,10 @@ for(var j=0;j<audios.length;j++){if( audios[ j ]!=this ){ audios[ j ].pause() } 
 }, false );
 }
 </script>
+
+<style type="text/css">
+
+.cd_show{
+  margin: 20px;
+}
+</style>
