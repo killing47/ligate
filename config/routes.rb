@@ -7,10 +7,11 @@ Rails.application.routes.draw do
   get  'signout', to: 'sessions#destroy', as: 'signout'
   get  'cds/fav/:id' => 'cds#fav', as: 'fav_cds'
   get  'cds/op_cd/:id' =>  'cds#op_cd', as:'op_cd'
+  get  'cds/edit/:id'  =>  'users#edit', as: 'edit_user'
   post '/st_up',  to: 'users#st_up'
 
   resources :cds,      only: %i(create update destroy)
-  resources :users,    only: %i(show edit create update destroy)
+  resources :users,    only: %i(show create update destroy)
   resources :sessions, only: %i(create destroy)
 
 end

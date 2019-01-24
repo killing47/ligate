@@ -1,4 +1,5 @@
-<div class=" container" style="margin: 120px auto;">
+<div id="top"></div>
+<div class=" container" style="margin: 50px auto 80px auto ;">
   <div class="row">
     <div class="col-5  image" style="text-align: center;" >
       <%if @user.image_id == nil %>
@@ -7,16 +8,16 @@
         <%= attachment_image_tag  @user, :image, format: 'jpeg', size:"300x300" , class:"image"%>
       <% end %>
     </div>
-    <div class="col-7 name" style="padding-left: 25px;" >
+    <div class="col-7 name" style="padding-left: 25px;">
       <div class="row">
-        <div class="col-5 ">
+        <div class="col-5">
           <h2>CB:<%= @user.nick_name %></h2>
         </div>
-        <div class="col-7" style="text-align: right;">
-          <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",  class: "btn btn-primary", style:" width: 73px;"%>
+        <div class="col-7" style="text-align: right; padding-right: 33px;">
+          <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",:target=>["_blank"],  class: "btn btn-primary", style:" width: 73px;"%>
           <button type="button" class="btn btn-primary " id="button1" style="width: 77px;">QR</button><br>
-          <% if current_user %>
-            <button type="button" class="btn btn-primary " id="button3" style="margin-top: 10px;">S−IDT</button>
+          <% if current_user.status == "contribution" %>
+            <button type="button" class="btn btn-primary " id="button3" style="margin-top: 10px; width: 73px;">Introd</button>
             <button type="button" class="btn btn-primary " id="button2" style="margin-top: 10px;">AddCD</button>
           <% end %>
         </div>
@@ -25,15 +26,16 @@
         <div class="col-12"><h1>Introduction:</h1></div>
       </div>
       <div class="row">
-        <div class="col-12" style="height: 100%; width: 100%; border: 1px solid black; margin-left: 3%;">
+        <div class="col-11" style="height: 100%;  border: 1px solid black; margin-left: 3%;">
           <%=  simple_format(@user.introduction) %>
         </div>
+        <div class="colo-1"></div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="container-fruid" >
+<div class="container" >
   <div class="row">
     <div class="col-12">
       <ul class="slider">
@@ -43,21 +45,21 @@
           <% if current_user %>
             <% if f.favorited_by?(current_user) %>
               <%= link_to fav_cds_path(f), class: "fav", remote: true do %>
-                <i class="fas fa-heart" id="<%= f.id %>"></i>
+                <i class="fas fa-heart" ></i>
               <% end %>
             <% else %>
               <%= link_to fav_cds_path(f), class: "fav", remote: true do %>
-                <i class="far fa-heart" id="<%= f.id %>"></i>
+                <i class="far fa-heart" ></i>
               <% end %>
             <% end %>
           <% end %>
-          <% if current_user %>
+          <% if current_user.status == "contribution" && current_user.id == @user.id %>
             <%= link_to "Che", edit_user_path(f), class: "btn btn-primary ch_cd"%>
-            <%= link_to "Del", cd_path(f.id), method: :delete,"data-confirm" => "本当に削除しますか？", class: "btn btn-danger ch_de" %>
+            <%= link_to "Del", cd_path(f.id), method: :delete,"data-confirm" => "Do you really want to delete this？", class: "btn btn-danger ch_de" %>
           <% end%>
           <p class="cd_title"><%= f.cd_title%></p>
           <%= link_to op_cd_path(f),id:"op", remote: true do %>
-            <%= attachment_image_tag  f, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "200x200", id: "#{f.id}"%>
+            <%= attachment_image_tag  f, :cd_image, format: 'jpeg',fallback: "/audio.no_image.jpg", size: "250x250", id: "#{f.id}", class: "item_image"%>
           <% end %>
           </div>
         </li>
@@ -110,7 +112,7 @@
       <%= form_with(model: @user, local: true) do |f| %>
         <%= f.label :introduction%><br />
         <%= f.text_area :introduction, style:"color: black; width: 80%; height: 150px;" %><br />
-        <%= f.submit '変更',style: "margin-left: 300px; width: 100px;" %>
+        <%= f.submit 'Contribution',style: "margin-left: 300px; width: 100px;" %>
       <% end %>
     </div>
   </div>
@@ -133,6 +135,21 @@ $('#button4').on('click', function() {
     $('#dialog4').modal();
 });
 
+$('.fav i').each(function(a){
+  $(this).attr('id','fav_' + (a+1));
+});
+
+$(".fav i").each(function (a) {
+  a = a+1;
+  $('#fav_' + a ).click(function() {
+    if ($("#fav_"+ a).hasClass('fas')) {
+      $("#fav_"+ a).removeClass('fas').addClass('far');
+    } else {
+      $("#fav_"+ a).removeClass('far').addClass('fas');
+    }
+  });
+});
+
 $(function(){
   $(document).on("ajax:success","#op",function(e){
     data = e.detail[0]
@@ -142,6 +159,16 @@ $(function(){
 </script>
 
 <style type="text/css">
+
+#top{
+  height: 300px;
+  width: 100%;
+  z-index: 1;
+  background-image: url("/show.header1.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
 .container{
   margin-top: 100px;
 }
@@ -159,18 +186,18 @@ $(function(){
 .item {
   /* 横スクロール用 */
   display: inline-block;
-  width: 200px;
+  width: 250px;
   /* 見た目調整 */
-  height: 200px;
+  height: 250px;
   margin: 16px;
   font-size: 48px;
 }
 
 .item_image{
-  border: 10px solid rgba(0, 0, 0, 0.4);
-  border-radius: 100px;
-}
 
+  border: 10px solid rgba(0, 0, 0, 0.4);
+  border-radius: 25px;
+}
 .image{
   border-radius: 150px;
 }
@@ -178,6 +205,7 @@ $(function(){
 .fav{
   position: absolute;
   z-index: 2;
+  left: 10px;
 }
 
 #op{
@@ -209,10 +237,11 @@ $(function(){
 }
 .cd_title{
   font-size:5px;
-  background-color: white;
+  background-color: rgba(255,255,255,0.8);
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 15px;
+  border-radius: 5px;
 }
 
 </style>

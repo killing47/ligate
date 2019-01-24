@@ -3,16 +3,34 @@ class CdsController < ApplicationController
   def create
     cd = Cd.new(cd_params)
     cd.user_id = current_user.id
-    cd.save
-    redirect_to user_path(current_user.id)
+    if cd.save
+      flash.now[:notice] = " Successfully Save."
+      redirect_to user_path(current_user.id)
+    else
+      flash.now[:notice] = "ERROR! You can't do it."
+      redirect_to user_path(current_user.id)
+    end
   end
 
   def update
+    @cd = Cd.find(params[:id])
+    if @cd.user_id != current_user.id
+      redirect_to root_path#(current_user.id)
+    else
+      if @cd.update(cd_params)
+        flash.now[:notice] = " Successfully Updated."
+        redirect_to user_path(current_user.id)
+      else
+        flash.now[:notice] = "ERROR! You can't do it."
+        redirect_to  edit_user_path(@cd.id)
+      end
+    end
   end
 
   def destroy
     cd = Cd.find(params[:id])
     cd.destroy
+    flash.now[:notice] = " Successfully Delete."
     redirect_to user_path(current_user.id)
   end
 
@@ -21,19 +39,13 @@ class CdsController < ApplicationController
     if cd.favorited_by?(current_user)
       fav = current_user.favorites.find_by(cd_id: cd.id)
       fav.destroy
-      user = current_user
-      user_name = current_user.favorites.map{|u_n| u_n.cd .user.nick_name}.uniq
-      cd_titles = current_user.favorites.map{|c_t| c_t.cd.cd_title}
-      #render json: cd
-      render :json =>{:cd => cd ,:user_name => user_name, :cd_titles => cd_titles}
+      c_user = current_user
+      render partial: 'partial/favorites', locals: {:c_user => c_user}
     else
       fav = current_user.favorites.new(cd_id: cd.id)
       fav.save
-      user = current_user
-      user_name = current_user.favorites.map{|u_n| u_n.cd .user.nick_name}.uniq
-      cd_titles = current_user.favorites.map{|c_t| c_t.cd.cd_title}
-    #  render json: cd
-      render :json => {:cd => cd ,:user_name => user_name, :cd_titles => cd_titles}
+      c_user = current_user
+      render partial: 'partial/favorites', locals: {:c_user => c_user}
     end
   end
 
@@ -47,4 +59,5 @@ class CdsController < ApplicationController
   def cd_params
     params.require(:cd).permit(:user_id,:cd_title, :cd_image, :cd_genre, musics_attributes: [:id, :cd_id, :audio, :music_title, :_destroy])
   end
+
 end

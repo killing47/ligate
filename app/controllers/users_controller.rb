@@ -23,13 +23,16 @@ class UsersController < ApplicationController
   end
 
   def admin #管理者画面
+    if ENV['EMAIL']!= current_user.email
+      redirect_to root_path
+    end
     @users  = User.page(params[:page]).reverse_order
      if params[:content] == ""
        @users = User.page(params[:page]).reverse_order
      else
        users = User.where('name LIKE ?', "%#{params[:content]}%").or(User.where('nick_name LIKE ?', "%#{params[:content]}%"))
        if users == []
-         flash.now[:danger] = "ERROR!検索結果はありません。"
+         flash.now[:danger] = "ERROR! You can't do it."
        end
        users_id = []
        users.each do |f|
@@ -41,20 +44,22 @@ class UsersController < ApplicationController
 
   def edit
     @cd = Cd.find(params[:id])
+    if @cd.user_id != current_user.id
+      redirect_to root_path
+    end
   end
 
   def update #更新アクション
-    @user = User.find(params[:id])
-    if@user.update(user_params)
-      flash[:success] = "ユーザー情報を更新しました。"
-      if @user.status == "gest"
+    if current_user.update(user_params)
+      flash.now[:success] = "Successfully Update."
+      if current_user.status == "gest"
         redirect_to  root_path(current_user)
       else
         redirect_to  user_path(current_user)
       end
     else
-      flash.now[:danger] = "ユーザー情報の更新に失敗しました。記入内容を確認してください。"
-      if @user.status == "gest"
+      flash.now[:danger] = "ERROR! You can't do it."
+      if current_user.status == "gest"
         redirect_to  root_path(current_user)
       else
         redirect_to  user_path(current_user)
@@ -62,16 +67,28 @@ class UsersController < ApplicationController
     end
   end
 
-  def st_up
+  def st_up  #status変更
     if current_user.status == "gest"
       user = User.find(current_user.id)
       user.status = "contribution"
       user.save
+      flash.now[:success] = "Welcome To Contribuiton."
       redirect_to user_path(current_user)
     end
   end
 
   def destroy #削除アクション
+    user = User.find(params[:id])
+    user.status = "unsubscribe"
+    user.save
+    if current_user.email == ENV['EMAIL']
+      flash.now[:success] = "Good Bye"
+      redirect_to admin_path(current_user)
+    else
+      flash.now[:success] = "Good Bye"
+      session[:user_id] = nil
+      redirect_to root_path
+    end
   end
 
   private #ストロングパラメータ

@@ -1,27 +1,43 @@
-<div id="top"></div>
-
-<div class="slider1" >
-  <ul class="horizontal-list">
-    <% @cds.each do |f| %>
-      <%= link_to user_path(f.user.id) do %>
-        <li class="item">
-          <%= attachment_image_tag  f, :cd_image, format: 'jpeg', fallback: "/no_image.jpg", size: "350x350", class: "item_image" %>
-        </li>
-      <% end %>
+<div id="top">
+  <h1>Welcom to</h1>
+  <h2>LiGate</h2>
+  <% if !current_user %>
+    <%= link_to "→Sign in ?", "/auth/google_oauth2", id: "sign_in_google "%>
+  <% else %>
+    <% if current_user.nick_name != "NickName" %>
+      <h3><%= current_user.nick_name %>!!<h3>
+    <% else %>
+      <h3><%= current_user.name %>!!<h3>
     <% end %>
-  </ul>
+  <% end %>
+</div>
+<div class="cd_list">
+  <h1>CD List</h1>
+  <div class="slider1" >
+    <ul class="horizontal-list">
+      <% @cds.each do |f| %>
+        <%= link_to user_path(f.user.id) do %>
+          <li class="item">
+            <%= attachment_image_tag  f, :cd_image, format: 'jpeg', fallback: "/audio.no_image.jpg", size: "350x350", class: "item_image1" %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
 </div>
 
-<div class="slider2">
+<div class="user_list">
+<h1>User List</h1>
+<div class="slider2 header_list">
   <ul class="horizontal-list">
     <% @users.each do |f| %>
       <% if f.status == "contribution" %>
       <li class="item">
         <%= link_to user_path(f.id) do %>
           <%if f.image_id == nil %>
-            <%= image_tag(f.user_image,  :size => "350x350", class: "item_image") %>
+            <%= image_tag(f.user_image,  :size => "350x350", class: "item_image2") %>
           <% else%>
-            <%= attachment_image_tag  f, :image, format: 'jpeg', size: "350x350", class: "item_image" %>
+            <%= attachment_image_tag  f, :image, format: 'jpeg', size: "350x350", class: "item_image2" %>
           <% end %>
         <% end %>
       </li>
@@ -29,20 +45,84 @@
    <% end %>
   </ul>
 </div>
+</div>
 
 <style type="text/css">
  #top{
-   height: 400px;
+   height: 600px;
    width: 100%;
-   background-color: none;
-   opacity: 0.5;
+   z-index: 1;
+   background-image: url("/header.jpg");
+   background-repeat: no-repeat;
+   background-position: center;
+   background-size: cover;
  }
+ #top h1{
+   position: absolute;
+   font-size: 50px;
+   right: 230px;
+   top:120px;
+   font-family: 'Comic Sans MS';
+   z-index: 2;
+ }
+ #top h2{
+   position: absolute;
+   font-size: 50px;
+   right: 180px;
+   top:190px;
+   font-family: 'Comic Sans MS';
+   z-index: 2;
+ }
+
+ #top h3{
+   position: absolute;
+   color: black;
+   font-size:40px;
+   font-weight: 1;
+   right: 100px;
+   top:260px;
+   font-family: 'Comic Sans MS';
+   z-index: 2;
+ }
+ #top a{
+   position: absolute;
+   color: black;
+   font-size:40px;
+   font-weight: 1;
+   right: 100px;
+   top:260px;
+   font-family: 'Comic Sans MS';
+   z-index: 2;
+ }
+
+ #top a:hover{
+   text-decoration: none;
+   opacity: 0.5;
+
+ }
+
+ .cd_list {
+   border-top: 6px solid rgba(0,0,0,0.5);
+   border-bottom: 6px solid rgba(0,0,0,0.5);
+ }
+ .user_list{
+   border-bottom: 6px solid rgba(0,0,0,0.5);
+ }
+
+ .cd_list h1, .user_list h1{
+   text-align: left;
+   margin-left: 10px;
+   font-size: 75px;
+   font-family: 'Comic Sans MS';
+ }
+
+
+
 .slider1, .slider2 {
   overflow-x: auto;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 20px;
-  border-top: 3px solid rgba(0,0,0,0.5);
 }
 .item {
   /* 横スクロール用 */
@@ -54,8 +134,13 @@
   font-size: 48px;
 }
 
-.item_image{
-    border: 10px solid rgba(0, 0, 0, 0.4);
+.item_image1{
+    border: 10px solid #FFDBC9;
+    border-radius: 100px;
+}
+
+.item_image2{
+    border: 10px solid #000055;
     border-radius: 100px;
 }
 

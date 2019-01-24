@@ -8,27 +8,27 @@
        <%= attachment_image_tag  current_user, :image, format: 'jpeg', size: "200x200", id:"image1" %>
      <% end %>
      <%= form_with(model: @user, local: true, class: "image_form") do |f| %>
-       <%= f.file_field :image, class:"overlay",id: "file_field" , style: "color:white;"%>
-       <%= f.submit '変更',class: 'overlay' %>
+       <%= f.file_field  :image, class:"overlay",id: "file_field" , style: "color:white;" ,:lang => "en" %>
+       <%= f.submit 'Change',class: 'overlay' %>
      <% end %>
    </div>
 
     <div class="col-5 name">
-      <h3>名前：<%= current_user.name%></h3>
-      <h4>ニックネーム：<%= current_user.nick_name %></h4>
+      <h3>Name：<%= current_user.name%></h3>
+      <h3>NickName：<%= current_user.nick_name %></h3>
       <%= form_with(model: @user, local: true) do |f| %>
         <%= f.text_field :nick_name, class: "overlay"  %>
-        <%= f.submit '変更',class: 'overlay' %>
+        <%= f.submit 'Change',class: 'overlay' %>
       <% end %>
     </div>
     <div class="colo-1 ch_btn1">
-      <a href="" id="btn" style="color: black;">変更モード</a>
+      <a href="" id="btn" style="color: black;">ChMode</a>
       <div class="overlay ch_btn2">
-        <a href="" id="close" style="color: black;">戻る</a><br>
+        <a href="" id="close" style="color: black;">back</a><br>
       </div>
       <div class="overlay ch_btn3">
         <% if current_user.email != ENV['EMAIL'] %>
-          <%= link_to "退会する", user_path(current_user), "data-confirm" => "本当に退会しますか？",
+          <%= link_to "Withdrawal", user_path(current_user), "data-confirm" => "本当に退会しますか？",
               method: :delete, style: "color: black;" %>
         <% end %>
       </div>

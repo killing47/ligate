@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   attachment :image
 
+  validates :introduction, length: {maximum: 200}
+
   def self.from_omniauth(auth)
    where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
      user.provider = auth.provider

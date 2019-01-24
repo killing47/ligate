@@ -4,7 +4,7 @@
   <div class="favorite_cb">
     <p>
     <% user = [] %>
-    <% current_user.favorites.each do |f| %>
+    <% c_user.favorites.each do |f| %>
       <% if !user.include?(f.cd.user.id)%>
         <% user.push(f.cd.user.id) %>
           <%= link_to user_path(f.cd.user.id),style: "color: black;" do %>
@@ -18,9 +18,9 @@
   <h1 class="favorite_style">CD_Title</h1>
   <div class="favorite_cd">
     <p>
-      <% current_user.favorites.each do |f| %>
+      <% c_user.favorites.each do |f| %>
         <%= link_to user_path(f.cd.user.id) ,style: "color:black;" do %>
-          <%= f.cd.cd_title %>
+           <%= f.cd.cd_title%>
         <% end %>,
       <% end %>
     </p>

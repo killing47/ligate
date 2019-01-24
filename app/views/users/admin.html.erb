@@ -20,7 +20,7 @@
     <tbody>
       <tr>
       <% if user.status == "gest" || user.status == "contributor" %>
-        <td><%= attachment_image_tag user, :image,:fill, 60, 60, format: 'jpeg', fallback: "/images/no_image.jp", size: "60x60" %></td>
+        <td><%= attachment_image_tag user, :image,:fill, 60, 60, format: 'jpeg', size: "60x60" %></td>
         <td><%= user.name %></td>
         <td><%= user.nick_name %></td>
         <td><%= user.email %></td>

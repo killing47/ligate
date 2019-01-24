@@ -1,36 +1,49 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content" >
     <div class="cd_show">
+
       <div class="row">
         <div class="col-6">
-            <%= attachment_image_tag  cd, :cd_image, format: 'jpeg',fallback: "/no_image.jpg", size: "250x250" %>
+            <%= attachment_image_tag  cd, :cd_image, format: 'jpeg',fallback: "/audio.no_image.jpg", size: "200x200", class: "player_image"%>
         </div>
-        <div class="col-6">
-          <%= cd.cd_title %>
-          <%= cd.cd_genre %>
+        <div class="col-6 play-int">
+          <h4>Title:<%= cd.cd_title %></h4>
+          <h4>Genre:<%= cd.cd_genre %></h4>
         </div>
-      </div>
-      <div class="row" style="text-align: center;">
-        <ul id="Audio-Control">
-          <% cd.musics.each do |a| %>
-            <li>
-              <audio>
-                <source src="<%= attachment_url(a, :audio) %>" type="audio/mp3">
-                <source src="<%= attachment_url(a, :audio) %>" type="audio/ogg">
-              </audio>
-              <button type="button" class="btn btn-primary on">ON</button>
-              <button type="button" class="btn btn-primary off">OFF</button>
-           </li>
-             <end>
-          <% end %>
-        </ul>
       </div>
 
+      <div class="row" style="text-align: center; margin-top: 50px;">
+        <div class="col-1"></div>
+        <div class="col-10">
+          <ol id="Audio-Control">
+            <% cd.musics.each do |a| %>
+              <li style="margin: 10px;">
+                <div class="row" >
+                  <div class="col-6">
+                  <%= a.music_title %>
+                  </div>
+                  <div class="col-6">
+                    <audio>
+                      <source src="<%= attachment_url(a, :audio) %>" type="audio/mp3">
+                      <source src="<%= attachment_url(a, :audio) %>" type="audio/ogg">
+                    </audio>
+                    <button type="button" class="btn btn-primary on">ON</button>
+                    <button type="button" class="btn btn-primary off">OFF</button>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ol>
+        </div>
+        <div class="col-1"></div>
+      </div>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
+
+
 $(document).on('click', '.on',function(){
   $(this).prevAll("audio").get(0).play();
 });
@@ -53,6 +66,20 @@ for(var j=0;j<audios.length;j++){if( audios[ j ]!=this ){ audios[ j ].pause() } 
 <style type="text/css">
 
 .cd_show{
-  margin: 20px;
+  margin: 30px;
 }
+
+.player_image{
+  border-radius: 30px;
+}
+
+.play-int{
+  margin-top: 130px;
+}
+li{
+   text-align: left;
+   color:black;
+  font-size: 30px;
+}
+
 </style>

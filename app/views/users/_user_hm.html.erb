@@ -1,16 +1,16 @@
 <ul id="tab-menu" class="clearfix" style="border-radius: 100px;">
-  <li ><a name="#tab1" class="active">Profile</a></li>
-  <li><a name="#tab2" class="">Favorite CB</a></li>
+  <li ><a name="#tab1" class="active btn">Profile</a></li>
+  <li><a name="#tab2" class="btn">Favorite CB</a></li>
   <li>
     <% if  current_user.email == ENV['EMAIL'] %>
-      <%= link_to "Contributor", user_path(current_user) %>
+      <%= link_to "Contributor", user_path(current_user), class: "btn"%>
     <% elsif  current_user.status == "contribution"  %>
       <%= link_to "Admin", admin_path(current_user) %>
     <% else  %>
-      <%= link_to "Become CB?",st_up_path(current_user), method: :post  %>
+      <%= link_to "Become CB?",st_up_path(current_user), method: :post, class: "btn"  %>
     <% end %>
   </li>
-  <li><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
+  <li><%= link_to "Sign out", signout_path, id: "sign_out", class:"btn" %></li>
 </ul>
 
 <div id="tab-contents" class="clearfix">

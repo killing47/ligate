@@ -19,17 +19,24 @@
 //= require turbolinks
 //= require_tree .
 
+// $(function() {
+//   $(document).on("ajax:success", ".fav", function(e) {
+//     data = e.detail[0]
+//     if ($('#' + e.detail[0]['cd']['id']).hasClass('fas')) {
+//       $('#' + e.detail[0]['cd']['id']).removeClass('fas').addClass('far');
+//       $('.favorite_cd').html('<p>' + e.detail[0]['cd_titles'] + '</p>');
+//       $('.favorite_cb').html('<p>' + e.detail[0]['user_name'] + '</p>');
+//     } else {
+//       $('#' + e.detail[0]['cd']['id']).removeClass('far').addClass('fas');
+//       $('.favorite_cd').html('<p>' + e.detail[0]['cd_titles'] + '</p>');
+//       $('.favorite_cb').html('<p>' + e.detail[0]['user_name'] + '</p>');
+//     }
+//   })
+// })
+
 $(function() {
   $(document).on("ajax:success", ".fav", function(e) {
     data = e.detail[0]
-    if ($('#' + e.detail[0]['cd']['id']).hasClass('fas')) {
-      $('#' + e.detail[0]['cd']['id']).removeClass('fas').addClass('far');
-      $('.favorite_cd').html('<p>' + e.detail[0]['cd_titles'] + '</p>');
-      $('.favorite_cb').html('<p>' + e.detail[0]['user_name'] + '</p>');
-    } else {
-      $('#' + e.detail[0]['cd']['id']).removeClass('far').addClass('fas');
-      $('.favorite_cd').html('<p>' + e.detail[0]['cd_titles'] + '</p>');
-      $('.favorite_cb').html('<p>' + e.detail[0]['user_name'] + '</p>');
-    }
+    $(".favorite").html(e.detail[2]['response']);
   })
 })

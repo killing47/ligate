@@ -1,4 +1,4 @@
-<div class="container-fruid " style="height: 100px; background-color: rgba(0,0,0,0.1);border-bottom: 2px solid gray">
+<div class="container-fruid header" >
   <div id="sp-menu">
     <div class="wrap">
     <% if current_user %>
@@ -10,11 +10,11 @@
   </div>
 </div>
 <div>
-  <h2 id="hm-logo">
-   <%= link_to "後でロゴを入れる", root_path %>
+  <h2 >
+   <%= link_to "L i G a t e", root_path, id: "hm-logo" %>
   </h2>
   <div id="hm-icon">
-    <%= link_to "お問い合わせ", "#" , class: "hm-li"%>
+    <%= link_to "C o n t a c t  U s", ENV['OTOIAWASE'], :target=>["_blank"], class: "hm-li"%>
     <%= link_to "", class: "menu-trigger"  do %>
       <span></span><span></span><span></span>
     <% end %>
@@ -35,25 +35,45 @@ $(function() {
 #hm-logo{
 position: fixed;
 left: 20px;
-top: 35px;
+top: 14px;
 z-index: 10;
+font-size: 50px;
+font-family: 'Comic Sans MS';
+color: black;
 }
 
-#hm-logo a{
-color: black;
+
+
+#hm-logo:hover{
+  opacity: 0.5;
+  color: black;
+  text-decoration:none;
 }
 
 #hm-icon{
 position: fixed;
-right: 20px;
-top: 20px;
+right: 30px;
+top: 30px;
 z-index: 10;
+}
+
+
+.header{
+  height: 100px;
 }
 
 .hm-li{
   color: black;
   padding-right: 30px;
-  font-size: 25px;
+  font-size: 40px;
+  font-family: 'Comic Sans MS';
+  text-decoration:none;
+}
+
+.hm-li:hover{
+  color: black;
+  opacity: 0.5;
+  text-decoration: none;
 }
 
 .wrap{
@@ -117,7 +137,7 @@ background-color: #fff;
 position: fixed;
 top: 0;
 left: 0;
-background: rgba(0,0,0,0.8);
+background: rgba(0,0,0,0.7);
 color: #fff;
 width: 100%;
 min-height: 100%;
