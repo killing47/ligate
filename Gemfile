@@ -107,3 +107,6 @@ gem "pry-rails"
 
 #pagenationgem
 gem 'kaminari','~> 1.1.1'
+
+#s3使用gem
+gem 'aws-sdk'
