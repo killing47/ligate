@@ -4,7 +4,7 @@
 
       <div class="row">
         <div class="col-6">
-            <%= attachment_image_tag  cd, :cd_image, format: 'jpeg',fallback: "/audio.no_image.jpg", size: "200x200", class: "player_image"%>
+          <%= attachment_image_tag  cd, :cd_image, format: 'jpeg',fallback: "/audio.no_image.jpg", size: "200x200", class: "player_image"%>
         </div>
         <div class="col-6 play-int">
           <h4>Title:<%= cd.cd_title %></h4>
@@ -23,10 +23,7 @@
                   <%= a.music_title %>
                   </div>
                   <div class="col-6">
-                    <audio>
-                      <source src="<%= attachment_url(a, :audio) %>" type="audio/mp3">
-                      <source src="<%= attachment_url(a, :audio) %>" type="audio/ogg">
-                    </audio>
+                    <audio src="<%= url_for(a.audio) %>" ></audio>
                     <button type="button" class="btn btn-primary on">ON</button>
                     <button type="button" class="btn btn-primary off">OFF</button>
                   </div>

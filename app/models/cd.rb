@@ -7,7 +7,7 @@ class Cd < ApplicationRecord
   attachment :cd_image
 
   validates :cd_title, presence: true, length: { maximum:20 }
-  validates :cd_genre, presence: true, length: { maximum:10 }
+  validates :cd_genre, presence: true, length: { maximum:20 }
 
   def favorited_by?(user) #いいねしているかどうか
     favorites.where(user_id: user.id).exists?

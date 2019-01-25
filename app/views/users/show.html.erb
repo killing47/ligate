@@ -16,7 +16,7 @@
         <div class="col-7" style="text-align: right; padding-right: 33px;">
           <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",:target=>["_blank"],  class: "btn btn-primary", style:" width: 73px;"%>
           <button type="button" class="btn btn-primary " id="button1" style="width: 77px;">QR</button><br>
-          <% if current_user.status == "contribution" %>
+          <% if current_user && current_user.status == "contribution" %>
             <button type="button" class="btn btn-primary " id="button3" style="margin-top: 10px; width: 73px;">Introd</button>
             <button type="button" class="btn btn-primary " id="button2" style="margin-top: 10px;">AddCD</button>
           <% end %>
@@ -53,7 +53,7 @@
               <% end %>
             <% end %>
           <% end %>
-          <% if current_user.status == "contribution" && current_user.id == @user.id %>
+          <% if  current_user  && current_user.status == "contribution" && current_user.id == @user.id %>
             <%= link_to "Che", edit_user_path(f), class: "btn btn-primary ch_cd"%>
             <%= link_to "Del", cd_path(f.id), method: :delete,"data-confirm" => "Do you really want to delete this？", class: "btn btn-danger ch_de" %>
           <% end%>

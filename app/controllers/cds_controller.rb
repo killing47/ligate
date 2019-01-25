@@ -7,8 +7,8 @@ class CdsController < ApplicationController
       flash.now[:notice] = " Successfully Save."
       redirect_to user_path(current_user.id)
     else
-      flash.now[:notice] = "ERROR! You can't do it."
       redirect_to user_path(current_user.id)
+      flash.now[:notice] = "ERROR! You can't do it."
     end
   end
 

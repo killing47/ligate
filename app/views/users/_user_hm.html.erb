@@ -3,9 +3,9 @@
   <li><a name="#tab2" class="btn">Favorite CB</a></li>
   <li>
     <% if  current_user.email == ENV['EMAIL'] %>
-      <%= link_to "Contributor", user_path(current_user), class: "btn"%>
-    <% elsif  current_user.status == "contribution"  %>
       <%= link_to "Admin", admin_path(current_user) %>
+    <% elsif  current_user.status == "contribution"  %>
+      <%= link_to "Contributor", user_path(current_user), class: "btn"%>
     <% else  %>
       <%= link_to "Become CB?",st_up_path(current_user), method: :post, class: "btn"  %>
     <% end %>

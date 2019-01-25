@@ -1,42 +1,22 @@
-<div class="favorite">
-
-  <h1 class="favorite_style">Contributor</h1>
-  <div class="favorite_cb">
-    <p>
-    <% user = [] %>
-    <% c_user.favorites.each do |f| %>
-      <% if !user.include?(f.cd.user.id)%>
-        <% user.push(f.cd.user.id) %>
-          <%= link_to user_path(f.cd.user.id),style: "color: black;" do %>
-            <%= f.user.nick_name %>
-          <% end %>,
+<h1 class="favorite_style">Contributor</h1>
+<div class="favorite_cb">
+  <% user = [] %>
+  <% c_user.favorites.each do |f| %>
+    <% if !user.include?(f.cd.user.id)%>
+      <% user.push(f.cd.user.id) %>
+        <%= link_to user_path(f.cd.user.id),style: "color: black;" do %>
+          <%= attachment_image_tag  f.user, :image, format: 'jpeg',fallback: "/audio.no_image.jpg", size: "100x100", class: "fv_bc_image"%>
         <% end %>
-    <% end %>
-    </p>
-  </div>
-
-  <h1 class="favorite_style">CD_Title</h1>
-  <div class="favorite_cd">
-    <p>
-      <% c_user.favorites.each do |f| %>
-        <%= link_to user_path(f.cd.user.id) ,style: "color:black;" do %>
-           <%= f.cd.cd_title%>
-        <% end %>,
       <% end %>
-    </p>
-  </div>
+  <% end %>
 
 </div>
 
-<style type="text/css">
-.favorite_cd, .favorite_cb p{
-  font-size: 30px;
-  padding-left: 20px;
-}
-.favorite_style{
-  color:black;
-}
-.favorite{
- margin-left: 50px;
-}
-</style>
+<h1 class="favorite_style">CD_Title</h1>
+<div class="favorite_cd">
+    <% c_user.favorites.each do |f| %>
+      <%= link_to user_path(f.cd.user.id) ,style: "color:black;" do %>
+        <%= attachment_image_tag  f.cd, :cd_image, format: 'jpeg',fallback: "/audio.no_image.jpg", size: "100x100", class: "fv_cd_image"%>
+      <% end %>
+    <% end %>
+</div>

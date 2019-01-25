@@ -1,5 +1,5 @@
 <div id="top">
-  <h1>Welcom to</h1>
+  <h1>Welcome to</h1>
   <h2>LiGate</h2>
   <% if !current_user %>
     <%= link_to "→Sign in ?", "/auth/google_oauth2", id: "sign_in_google "%>
@@ -27,24 +27,24 @@
 </div>
 
 <div class="user_list">
-<h1>User List</h1>
-<div class="slider2 header_list">
-  <ul class="horizontal-list">
-    <% @users.each do |f| %>
-      <% if f.status == "contribution" %>
-      <li class="item">
-        <%= link_to user_path(f.id) do %>
-          <%if f.image_id == nil %>
-            <%= image_tag(f.user_image,  :size => "350x350", class: "item_image2") %>
-          <% else%>
-            <%= attachment_image_tag  f, :image, format: 'jpeg', size: "350x350", class: "item_image2" %>
+  <h1>User List</h1>
+  <div class="slider2 header_list">
+    <ul class="horizontal-list">
+      <% @users.each do |f| %>
+        <% if f.status == "contribution" %>
+        <li class="item">
+          <%= link_to user_path(f.id) do %>
+            <%if f.image_id == nil %>
+              <%= image_tag(f.user_image,  :size => "350x350", class: "item_image2") %>
+            <% else%>
+              <%= attachment_image_tag  f, :image, format: 'jpeg', size: "350x350", class: "item_image2" %>
+            <% end %>
           <% end %>
+        </li>
         <% end %>
-      </li>
-      <% end %>
-   <% end %>
-  </ul>
-</div>
+     <% end %>
+    </ul>
+  </div>
 </div>
 
 <style type="text/css">
@@ -141,7 +141,7 @@
 
 .item_image2{
     border: 10px solid #000055;
-    border-radius: 100px;
+    border-radius: 175px;
 }
 
 </style>
