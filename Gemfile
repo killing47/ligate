@@ -97,7 +97,7 @@ gem 'chunky_png'
 gem 'devise'
 
 #.envfilegem
-gem 'dotenv-rails', groups: [:development, :test]
+gem 'dotenv-rails'
 
 #googleformgem
 gem 'omniauth-google-oauth2'
