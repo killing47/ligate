@@ -1,15 +1,17 @@
+<% c_user = current_user %>
 <div id="top">
   <h1>Welcome to</h1>
   <h2>LiGate</h2>
-  <% if !current_user %>
+  <% if !c_user %>
     <%= link_to "→Sign in ?", "/auth/google_oauth2", id: "sign_in_google "%>
   <% else %>
-    <% if current_user.nick_name != "NickName" %>
-      <h3><%= current_user.nick_name %>!!<h3>
+    <% if c_user.nick_name != "NickName" %>
+      <h3><%= c_user.nick_name %>!!<h3>
     <% else %>
-      <h3><%= current_user.name %>!!<h3>
+      <h3><%= c_user.name %>!!<h3>
     <% end %>
   <% end %>
+  <h5 class="flash_m">　<%= flash.now[:notice] %></h5>
 </div>
 <div class="cd_list">
   <h1>CD List</h1>
@@ -144,4 +146,9 @@
     border-radius: 175px;
 }
 
+.flash_m{
+  position: absolute;
+  left:0;
+  top:100px;
+}
 </style>

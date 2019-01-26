@@ -1,11 +1,12 @@
+<% c_user = current_user %>
 <div class="profile">
   <div class="row">
     <div class="col-1"></div>
     <div class="col-4  image" >
-     <%if current_user.image_id == nil %>
-       <%= image_tag(current_user.user_image,  :size => "200x200", id:"image1", class: "image") %>
+     <%if c_user.image_id == nil %>
+       <%= image_tag(c_user.user_image,  :size => "200x200", id:"image1", class: "image") %>
      <% else%>
-       <%= attachment_image_tag  current_user, :image, format: 'jpeg', size: "200x200", id:"image1" %>
+       <%= attachment_image_tag  c_user, :image, format: 'jpeg', size: "200x200", id:"image1" %>
      <% end %>
      <%= form_with(model: @user, local: true, class: "image_form") do |f| %>
        <%= f.file_field  :image, class:"overlay",id: "file_field" , style: "color:white;" ,:lang => "en" %>
@@ -14,21 +15,21 @@
    </div>
 
     <div class="col-5 name">
-      <h3>Name：<%= current_user.name%></h3>
-      <h3>NickName：<%= current_user.nick_name %></h3>
+      <h3>Name：<%= c_user.name%></h3>
+      <h3>NickName：<%= c_user.nick_name %></h3>
       <%= form_with(model: @user, local: true) do |f| %>
-        <%= f.text_field :nick_name, class: "overlay"  %>
-        <%= f.submit 'Change',class: 'overlay' %>
+        <%= f.text_field :nick_name, class:"overlay", style:"padding: 6px 0; "   %>
+        <%= f.submit 'Change',class: 'overlay btn btn-outline-secondary ' %>
       <% end %>
     </div>
     <div class="colo-1 ch_btn1">
-      <a href="" id="btn" style="color: black;">ChMode</a>
+      <a href="" id="btn" style="color: black;" class="btn btn-outline-secondary" >ChMode</a>
       <div class="overlay ch_btn2">
-        <a href="" id="close" style="color: black;">back</a><br>
+        <a href="" id="close" style="color: black;"  class="btn btn-outline-secondary">back</a><br>
       </div>
       <div class="overlay ch_btn3">
-        <% if current_user.email != ENV['EMAIL'] %>
-          <%= link_to "Withdrawal", user_path(current_user), "data-confirm" => "本当に退会しますか？",
+        <% if c_user.email != ENV['EMAIL'] %>
+          <%= link_to "Withdrawal", user_path(c_user), "data-confirm" => "本当に退会しますか？",
               method: :delete, style: "color: black;" %>
         <% end %>
       </div>

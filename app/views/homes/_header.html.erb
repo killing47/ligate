@@ -1,7 +1,8 @@
+<% c_user = current_user %>
 <div class="container-fruid header" >
   <div id="sp-menu">
     <div class="wrap">
-    <% if current_user %>
+    <% if c_user %>
         <%= render "users/user_hm" %>
     <% else %>
       <%= render "partial/sign_in" %>
@@ -34,10 +35,10 @@ $(function() {
 <style type="text/css">
 #hm-logo{
 position: fixed;
-left: 20px;
-top: 14px;
+left: 22px;
+top: 22px;
 z-index: 10;
-font-size: 50px;
+font-size: 45px;
 font-family: 'Comic Sans MS';
 color: black;
 }

@@ -1,19 +1,20 @@
 <div id="top"></div>
+<h5 class="flash_m"><%= flash.now[:notice] %></h5>
 <div class="container change_cd">
   <div class="row">
     <div class="col-3"></div>
     <div class="col-6">
       <%= form_with(model: @cd, local: true)  do |f| %>
-        <%= f.label :cd_image,style: "margin-right:1px;" %>   ：<%= f.attachment_field  :cd_image %><br>
-        <%= f.label :cd_title ,style: "margin-right:1px;"%>　 ：<%= f.text_field :cd_title %><br>
-        <%= f.label :cd_genre,style: "margin-right:2px;" %>   ：<%= f.text_field :cd_genre %><br>
+        　<%= f.label :cd_image,style: "margin-right:1px;" %>   ：<%= f.attachment_field  :cd_image %><br>
+        　<%= f.label :cd_title ,style: "margin-right:1px;"%>　 ：<%= f.text_field :cd_title %><br>
+        　<%= f.label :cd_genre,style: "margin-right:2px;" %>   ：<%= f.text_field :cd_genre %><br>
         <div>
           <%= f.fields_for :musics do |i| %>
             <%= render 'music_fields', f: i %>
           <% end %>
-         <%= link_to_add_association 'AddAudio',f, :musics %>
-        </div>
-        <%= f.submit "Update"  , style: "margin-left:400px;"  %>
+          　<%= link_to_add_association '+Audio',f, :musics, class: "btn btn-outline-secondary"  %>
+         </div>
+         <%= f.submit "Create" , style: "margin-left:370px; width: 83px" ,class: "btn btn-outline-secondary"%>
       <% end %>
     </div>
     <div class="col-3"></div>
@@ -36,6 +37,7 @@
   margin-top: 50px;
 }
 
+
 .change_cd a{
   color: black;
 }
@@ -44,4 +46,10 @@
   text-decoration: none;
   opacity: 0.5;
 }
-</style
+.flash_m{
+  position: absolute;
+  top: 275px;
+  left:  0px;
+}
+
+</style>

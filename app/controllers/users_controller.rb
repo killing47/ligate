@@ -51,18 +51,16 @@ class UsersController < ApplicationController
 
   def update #更新アクション
     if current_user.update(user_params)
-      flash.now[:success] = "Successfully Update."
       if current_user.status == "gest"
-        redirect_to  root_path(current_user)
+        redirect_to  root_path(current_user),notice: "Successfully Save."
       else
-        redirect_to  user_path(current_user)
+        redirect_to  user_path(current_user),notice: "Successfully Save."
       end
     else
-      flash.now[:danger] = "ERROR! You can't do it."
       if current_user.status == "gest"
-        redirect_to  root_path(current_user)
+        redirect_to  root_path(current_user),notice: "ERROR! You can't do it."
       else
-        redirect_to  user_path(current_user)
+        redirect_to  user_path(current_user),notice: "ERROR! You can't do it."
       end
     end
   end
@@ -72,8 +70,7 @@ class UsersController < ApplicationController
       user = User.find(current_user.id)
       user.status = "contribution"
       user.save
-      flash.now[:success] = "Welcome To Contribuiton."
-      redirect_to user_path(current_user)
+      redirect_to user_path(current_user),notice: "Welcome To Contribuiton."
     end
   end
 
@@ -82,12 +79,10 @@ class UsersController < ApplicationController
     user.status = "unsubscribe"
     user.save
     if current_user.email == ENV['EMAIL']
-      flash.now[:success] = "Good Bye"
-      redirect_to admin_path(current_user)
+      redirect_to admin_path(current_user),notice: "Good Bye"
     else
-      flash.now[:success] = "Good Bye"
       session[:user_id] = nil
-      redirect_to root_path
+      redirect_to root_path,notice: "Good Bye"
     end
   end
 

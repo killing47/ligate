@@ -1,13 +1,14 @@
+<% c_user = current_user %>
 <ul id="tab-menu" class="clearfix" style="border-radius: 100px;">
   <li ><a name="#tab1" class="active btn">Profile</a></li>
   <li><a name="#tab2" class="btn">Favorite CB</a></li>
   <li>
-    <% if  current_user.email == ENV['EMAIL'] %>
-      <%= link_to "Admin", admin_path(current_user) %>
-    <% elsif  current_user.status == "contribution"  %>
-      <%= link_to "Contributor", user_path(current_user), class: "btn"%>
+    <% if  c_user.email == ENV['EMAIL'] %>
+      <%= link_to "Admin", admin_path(c_user) %>
+    <% elsif  c_user.status == "contribution"  %>
+      <%= link_to "Contributor", user_path(c_user), class: "btn"%>
     <% else  %>
-      <%= link_to "Become CB?",st_up_path(current_user), method: :post, class: "btn"  %>
+      <%= link_to "Become CB?",st_up_path(c_user), method: :post, class: "btn"  %>
     <% end %>
   </li>
   <li><%= link_to "Sign out", signout_path, id: "sign_out", class:"btn" %></li>

@@ -1,6 +1,7 @@
+<% c_user = current_user %>
 <div id="top"></div>
-<h5>　　　　　　　　　　　　　　<%= flash.now[:notice] %></h5>
 <div class=" container" style="margin: 50px auto 80px auto ;">
+  <h5 class="flash_m"><%= flash.now[:notice] %></h5>
   <div class="row">
     <div class="col-5  image" style="text-align: center;" >
       <%if @user.image_id == nil %>
@@ -17,7 +18,7 @@
         <div class="col-7" style="text-align: right; padding-right: 33px;">
           <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",:target=>["_blank"],  class: "btn btn-primary", style:" width: 73px;"%>
           <button type="button" class="btn btn-primary " id="button1" style="width: 77px;">QR</button><br>
-          <% if current_user && current_user.status == "contribution" %>
+          <% if c_user && c_user.status == "contribution" %>
             <button type="button" class="btn btn-primary " id="button3" style="margin-top: 10px; width: 73px;">Introd</button>
             <button type="button" class="btn btn-primary " id="button2" style="margin-top: 10px;">AddCD</button>
           <% end %>
@@ -41,10 +42,11 @@
     <div class="col-12">
       <ul class="slider">
         <% @user.cds.each do |f| %>
+
         <li class="item">
           <div style="position: relative;">
-          <% if current_user %>
-            <% if f.favorited_by?(current_user) %>
+          <% if c_user %>
+            <% if f.favorited_by?(c_user) %>
               <%= link_to fav_cds_path(f), class: "fav", remote: true do %>
                 <i class="fas fa-heart" ></i>
               <% end %>
@@ -54,7 +56,7 @@
               <% end %>
             <% end %>
           <% end %>
-          <% if  current_user  && current_user.status == "contribution" && current_user.id == @user.id %>
+          <% if  c_user  && c_user.status == "contribution" && c_user.id == @user.id %>
             <%= link_to "Che", edit_user_path(f), class: "btn btn-primary ch_cd"%>
             <%= link_to "Del", cd_path(f.id), method: :delete,"data-confirm" => "Do you really want to delete this？", class: "btn btn-danger ch_de" %>
           <% end%>
@@ -91,16 +93,16 @@
     <div class="modal-content">
       <div class="add_music">
         <%= form_with(model: @cd, local: true)  do |f| %>
-          <%= f.label :cd_image,style: "margin-right:1px;" %>   ：<%= f.attachment_field  :cd_image %><br>
-          <%= f.label :cd_title ,style: "margin-right:1px;"%>　 ：<%= f.text_field :cd_title %><br>
-          <%= f.label :cd_genre,style: "margin-right:2px;" %>   ：<%= f.text_field :cd_genre %><br>
+          　<%= f.label :cd_image,style: "margin-right:1px;" %>   ：<%= f.attachment_field  :cd_image %><br>
+          　<%= f.label :cd_title ,style: "margin-right:1px;"%>　 ：<%= f.text_field :cd_title %><br>
+          　<%= f.label :cd_genre,style: "margin-right:2px;" %>   ：<%= f.text_field :cd_genre %><br>
           <div>
             <%= f.fields_for :musics do |i| %>
               <%= render 'music_fields', f: i %>
             <% end %>
-           <%= link_to_add_association 'AddAudio',f, :musics %>
+           　<%= link_to_add_association '+Audio',f, :musics, class: "btn btn-outline-secondary"  %>
           </div>
-          <%= f.submit "Create" , style: "margin-left:400px;" %>
+          <%= f.submit "Create" , style: "margin-left:370px; width: 83px" ,class: "btn btn-outline-secondary"%>
         <% end %>
       </div>
     </div>
@@ -113,7 +115,7 @@
       <%= form_with(model: @user, local: true) do |f| %>
         <%= f.label :introduction%><br />
         <%= f.text_area :introduction, style:"color: black; width: 80%; height: 150px;" %><br />
-        <%= f.submit 'Contribution',style: "margin-left: 300px; width: 100px;" %>
+        <%= f.submit 'Contribution',style: "margin-left: 280px; ",class: "btn btn-outline-secondary" %>
       <% end %>
     </div>
   </div>
@@ -243,6 +245,12 @@ $(function(){
   bottom: 0;
   left: 15px;
   border-radius: 5px;
+}
+
+.flash_m{
+  position: absolute;
+  top: 275px;
+  left:  0px;
 }
 
 </style>
