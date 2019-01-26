@@ -4,11 +4,9 @@ class CdsController < ApplicationController
     cd = Cd.new(cd_params)
     cd.user_id = current_user.id
     if cd.save
-      flash.now[:notice] = " Successfully Save."
-      redirect_to user_path(current_user.id)
+      redirect_to user_path(current_user.id),notice: "Successfully Save."
     else
-      redirect_to user_path(current_user.id)
-      flash.now[:notice] = "ERROR! You can't do it."
+      redirect_to user_path(current_user.id),notice: "ERROR! You can't do it."
     end
   end
 

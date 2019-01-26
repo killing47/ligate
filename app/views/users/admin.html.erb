@@ -9,19 +9,25 @@
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
-        <th>ユーザー画像</th>
-        <th>名前</th>
-        <th>ニックネーム</th>
-        <th>メールアドレス</th>
-        <th>ユーザー削除</th>
-        <th>ユーザステータス</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Nick_Name</th>
+        <th>G.mail</th>
+        <th>Destroy to User</th>
+        <th>Status</th>
       </tr>
     </thead>
     <% @users.each do |user| %>
     <tbody>
       <tr>
-      <% if user.status == "gest" || user.status == "contributor" %>
-        <td><%= attachment_image_tag user, :image,:fill, 60, 60, format: 'jpeg', size: "60x60" %></td>
+      <% if user.email != ENV['EMAIL']  %>
+        <td>
+          <%if user.image_id == nil %>
+            <%= image_tag(user.user_image,  :size => "60x60", id:"image1", class: "image") %>
+          <% else%>
+            <%= attachment_image_tag  user, :image, format: 'jpeg', size: "60x60", id:"image1" %>
+          <% end %>
+        </td>
         <td><%= user.name %></td>
         <td><%= user.nick_name %></td>
         <td><%= user.email %></td>

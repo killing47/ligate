@@ -11,7 +11,7 @@
           <%= f.fields_for :musics do |i| %>
             <%= render 'music_fields', f: i %>
           <% end %>
-         <%= link_to_add_association 'AddMusic',f, :musics %>
+         <%= link_to_add_association 'AddAudio',f, :musics %>
         </div>
         <%= f.submit "Update"  , style: "margin-left:400px;"  %>
       <% end %>
