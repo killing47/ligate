@@ -18,7 +18,7 @@
         <div class="col-7" style="text-align: right; padding-right: 33px;">
           <%= link_to "PDF", "http://localhost:3000/users/#{@user.id}.pdf",:target=>["_blank"],  class: "btn btn-primary", style:" width: 73px;"%>
           <button type="button" class="btn btn-primary " id="button1" style="width: 77px;">QR</button><br>
-          <% if c_user && c_user.status == "contribution" %>
+          <% if  c_user  && c_user.status == "contribution" && c_user.id == @user.id %>
             <button type="button" class="btn btn-primary " id="button3" style="margin-top: 10px; width: 73px;">Introd</button>
             <button type="button" class="btn btn-primary " id="button2" style="margin-top: 10px;">AddCD</button>
           <% end %>

@@ -1,17 +1,14 @@
 <h1 class="favorite_style">Contributor</h1>
 <div class="favorite_cb">
-  <% user = [] %>
-  <% ct_user.favorites.each do |f| %>
-    <% if !user.include?(f.cd.user.id)%>
-      <% user.push(f.cd.user.id) %>
-        <%= link_to user_path(f.cd.user.id),style: "color: black;" do %>
-          <%if f.user.image_id == nil %>
-            <%= image_tag(f.user.user_image,  :size => "100x100", id:"image1", class: "image") %>
-          <% else%>
-            <%= attachment_image_tag  f.user, :image, format: 'jpeg', size: "100x100", id:"image1" %>
-          <% end %>
-        <% end %>
+  <% fav_user = ct_user.favorites.map{|fav| fav.cd.user}.uniq %>
+  <% fav_user.each do |f| %>
+    <%= link_to user_path(f.id),style: "color: black;" do %>
+      <%if f.image_id == nil %>
+        <%= image_tag(f.user_image,  :size => "100x100", id:"image1", class: "image") %>
+      <% else%>
+        <%= attachment_image_tag  f, :image, format: 'jpeg', size: "100x100", id:"image1" %>
       <% end %>
+    <% end %>
   <% end %>
 </div>
 
