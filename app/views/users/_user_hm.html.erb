@@ -6,9 +6,9 @@
     <% if  c_user.email == ENV['EMAIL'] %>
       <%= link_to "Admin", admin_path(c_user) %>
     <% elsif  c_user.status == "contribution"  %>
-      <%= link_to "Contributor", user_path(c_user), class: "btn"%>
+      <%= link_to "Contributor", user_path(c_user) , class: "btn"%>
     <% else  %>
-      <%= link_to "Become CB?",st_up_path(c_user), method: :post, class: "btn"  %>
+      <%= link_to "Become CB?",st_up_path(c_user), "data-confirm" => "投稿者になりますか？", method: :post, class: "btn"  %>
     <% end %>
   </li>
   <li><%= link_to "Sign out", signout_path, id: "sign_out", class:"btn" %></li>

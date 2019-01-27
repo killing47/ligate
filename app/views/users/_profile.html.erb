@@ -18,7 +18,7 @@
       <h3>Name：<%= c_user.name%></h3>
       <h3>NickName：<%= c_user.nick_name %></h3>
       <%= form_with(model: @user, local: true) do |f| %>
-        <%= f.text_field :nick_name, class:"overlay", style:"padding: 6px 0; "   %>
+        <%= f.text_field :nick_name, :placeholder => "NickName", class:"overlay", style:"padding: 6px 0; "   %>
         <%= f.submit 'Change',class: 'overlay btn btn-outline-secondary ' %>
       <% end %>
     </div>

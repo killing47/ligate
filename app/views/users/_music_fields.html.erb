@@ -1,6 +1,6 @@
 <!-- 動的form(music) -->
 <div class="nested-fields">
-  　<%= f.label :music_title %>：<%= f.text_field :music_title %><br>
+  　<%= f.label :music_title %>：<%= f.text_field :music_title, :placeholder => "Music title" %><br>
   　<%= f.label :audio %>　　：<%= f.file_field :audio %>
   <%= link_to_remove_association "Destroy", f , style:"margin-left:370px;",class: "btn btn-outline-secondary"%>
 </div>
