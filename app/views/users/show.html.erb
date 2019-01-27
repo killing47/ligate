@@ -29,7 +29,14 @@
       </div>
       <div class="row">
         <div class="col-11" style="height: 100%;  border: 1px solid black; margin-left: 3%;">
-          <%=  simple_format(@user.introduction) %>
+          <% if @user.introduction.empty? %>
+            <h4>
+              Welome to contributor!!<br>
+              Please add a Introduction<br>
+            </h4>
+          <% else%>
+            <h4><%= simple_format(@user.introduction) %><h4>
+          <% end %>
         </div>
         <div class="colo-1"></div>
       </div>
