@@ -13,17 +13,16 @@
       </div>
 
       <div class="row" style="text-align: center; margin-top: 50px;">
-        <div class="col-1"></div>
-        <div class="col-10">
+        <div class="col-12">
           <ol id="Audio-Control">
             <% cd.musics.each do |a| %>
               <li style="margin: 10px;">
                 <div class="row" >
                   <div class="col-6">
-                  <%= a.music_title %>
+                  <p ><%= a.music_title %></p>
                   </div>
-                  <div class="col-6">
-                    <audio src="<%= url_for(a.audio) %>" ></audio>
+                  <div class="col-6 audio-player" >
+                    <audio src="<%= url_for(a.audio) %>"></audio>
                     <button type="button" class="btn btn-primary on">ON</button>
                     <button type="button" class="btn btn-primary off">OFF</button>
                   </div>
@@ -32,7 +31,6 @@
             <% end %>
           </ol>
         </div>
-        <div class="col-1"></div>
       </div>
     </div>
   </div>
@@ -61,6 +59,10 @@ for(var j=0;j<audios.length;j++){if( audios[ j ]!=this ){ audios[ j ].pause() } 
 </script>
 
 <style type="text/css">
+
+.audio-player{
+  text-align :right;
+}
 
 .cd_show{
   margin: 30px;
