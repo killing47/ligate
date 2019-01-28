@@ -10,7 +10,7 @@ class CdsController < ApplicationController
       if cd.save
         redirect_to user_path(current_user.id),notice: "Successfully Save."
       else
-        redirect_to user_path(current_user.id)
+        redirect_to user_path(current_user.id),notice: "ERROR! You can't do it."
       end
     end
   end
