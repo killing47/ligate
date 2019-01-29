@@ -47,6 +47,7 @@
 <div class="container" >
   <div class="row">
     <div class="col-12">
+      <h1 class="cd_list">CD List</h1>
       <ul class="slider">
         <% @user.cds.each do |f| %>
 
@@ -258,6 +259,13 @@ $(function(){
   position: absolute;
   top: 275px;
   left:  0px;
+}
+
+.cd_list {
+  text-align: left;
+  margin-left: 10px;
+  font-size: 75px;
+  font-family: 'Comic Sans MS';
 }
 
 </style>
