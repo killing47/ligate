@@ -3,7 +3,7 @@
   <h1>Welcome to</h1>
   <h2>LiGate</h2>
   <% if !c_user %>
-    <%= link_to "→Sign in ?", "/auth/google_oauth2", id: "sign_in_google "%>
+    <%= link_to "→Sign in ?", "/auth/google_oauth2", class: "btn btn-outline-dark"%>
   <% else %>
     <% if c_user.nick_name != "NickName" %>
       <h3><%= c_user.nick_name %>!!<h3>
@@ -88,10 +88,9 @@
  }
  #top a{
    position: absolute;
-   color: black;
    font-size:40px;
    font-weight: 1;
-   right: 100px;
+   right: 50px;
    top:260px;
    font-family: 'Comic Sans MS';
    z-index: 2;
@@ -99,9 +98,8 @@
 
  #top a:hover{
    text-decoration: none;
-   opacity: 0.5;
-
  }
+
 
  .cd_list {
    border-top: 6px solid rgba(0,0,0,0.5);
@@ -151,4 +149,6 @@
   left:0;
   top:100px;
 }
+
+
 </style>
