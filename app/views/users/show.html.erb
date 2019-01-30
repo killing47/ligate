@@ -110,7 +110,7 @@
             <% end %>
            　<%= link_to_add_association '+Audio',f, :musics, class: "btn btn-outline-secondary"  %>
           </div>
-          <%= f.submit "Create" , style: "margin-left:370px; width: 83px" ,class: "btn btn-outline-secondary"%>
+          <%= f.submit "Create" , style: "margin-left:370px; width: 83px" , "data-confirm" => "全て入力した？",class: "btn btn-outline-secondary"%>
         <% end %>
       </div>
     </div>
@@ -123,7 +123,7 @@
       <%= form_with(model: @user, local: true) do |f| %>
         <%= f.label :introduction%><br />
         <%= f.text_area :introduction, :placeholder => "Introduction", style:"color: black; width: 80%; height: 150px;" %><br />
-        <%= f.submit 'Contribution',style: "margin-left: 280px; ",class: "btn btn-outline-secondary" %>
+        <%= f.submit 'Contribution',style: "margin-left: 280px; ","data-confirm" => "入力内容は大丈夫？",class: "btn btn-outline-secondary" %>
       <% end %>
     </div>
   </div>

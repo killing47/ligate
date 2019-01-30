@@ -38,24 +38,26 @@
 
 <script type="text/javascript">
 
-
 $(document).on('click', '.on',function(){
-  $(this).prevAll("audio").get(0).play();
-});
-$(document).on('click', '.off',function(){
-  $(this).prevAll("audio").get(0).pause();
+     $('#Audio-Control audio').each(function(index, el){
+       el.pause()
+       el.currentTime = 0;
+     })
+     $('#Audio-Control p').each(function(index, el){
+       $(el).css('background', '');
+     })
+     $(this).prevAll("audio").get(0).play();
+     $(this).parent().parent().find("p").css('background', 'rgba(51,153,255,0.5)');
 });
 
 $(document).on('click', '.off',function(){
   $(this).prevAll("audio").get(0).pause();
+  $(this).parent().parent().find("p").css('background', '');
 });
 
-var audios = document.querySelectorAll( "audio" );
-for(var i=0;i<audios.length;i++){
-audios[ i ].addEventListener( "play", function(){
-for(var j=0;j<audios.length;j++){if( audios[ j ]!=this ){ audios[ j ].pause() } {audios[ j ].currentTime = 0;}}
-}, false );
-}
+
+
+
 </script>
 
 <style type="text/css">

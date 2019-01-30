@@ -1,6 +1,7 @@
 <div id="top"></div>
 <h5 class="flash_m"><%= flash.now[:notice] %></h5>
 <div class="container change_cd">
+
   <div class="row">
     <div class="col-3"></div>
     <div class="col-6">
@@ -14,10 +15,12 @@
           <% end %>
           　<%= link_to_add_association '+Audio',f, :musics, class: "btn btn-outline-secondary"  %>
          </div>
-         <%= f.submit "Create" , style: "margin-left:370px; width: 83px" ,class: "btn btn-outline-secondary"%>
+         <%= f.submit "Create" , style: "margin-left:370px; width: 83px", "data-confirm" => "変更は大丈夫？" ,class: "btn btn-outline-secondary"%>
       <% end %>
     </div>
-    <div class="col-3"></div>
+    <div class="col-3">
+
+    </div>
   </div>
 </div>
 
@@ -46,6 +49,7 @@
   text-decoration: none;
   opacity: 0.5;
 }
+
 .flash_m{
   position: absolute;
   top: 275px;
