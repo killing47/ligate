@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
  end
 
  def oauth_failure
-    flash[:notice] = "キャンセルしました。"
+    flash[:notice] = "Canceled."
     redirect_to "/"
  end
 

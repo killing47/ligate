@@ -31,7 +31,7 @@
         <td><%= user.name %></td>
         <td><%= user.nick_name %></td>
         <td><%= user.email %></td>
-        <td><%= link_to "削除", user_path(user.id), method: :'delete' %></td>
+        <td><%= link_to "削除", user_path(user.id), method: :'delete', "data-confirm" => "退会させますか？" %></td>
         <td><%= user.status %></td>
       <% end %>
       </tr>
